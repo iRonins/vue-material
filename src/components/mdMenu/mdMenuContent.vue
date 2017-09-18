@@ -60,7 +60,7 @@
       },
       fireClick() {
         if (this.highlighted > 0) {
-          this.getOptions()[this.highlighted - 1].$el.click();
+          this.getOptions()[this.highlighted - 1].$children[0].close();
         }
       },
       getOptions() {
