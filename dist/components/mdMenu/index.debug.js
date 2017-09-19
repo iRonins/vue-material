@@ -968,6 +968,11 @@ exports.default = {
     };
   },
 
+  computed: {
+    highlightedIndex: function highlightedIndex() {
+      return this.highlighted - 1;
+    }
+  },
   methods: {
     close: function close() {
       this.highlighted = false;
@@ -976,13 +981,12 @@ exports.default = {
     highlightItem: function highlightItem(direction) {
       this.itemsAmount = this.$children[0].$children.length;
 
-      if (this.itemsAmount < this.highlighted - 1) {
-        this.highlighted = 1;
-      }
-
       this.oldHighlight = this.highlighted;
 
       if (direction === 'up') {
+        if (this.highlighted < 1) {
+          this.highlighted = 1;
+        }
         if (this.highlighted === 1) {
           this.highlighted = this.itemsAmount;
         } else {
@@ -1002,7 +1006,7 @@ exports.default = {
     },
     fireClick: function fireClick() {
       if (this.highlighted > 0) {
-        this.getOptions()[this.highlighted - 1].$children[0].close();
+        this.getOptions()[this.highlightedIndex].$children[0].close();
       }
     },
     getOptions: function getOptions() {
@@ -1040,12 +1044,12 @@ exports.default = {
       for (var i = 0; i < this.itemsAmount; i++) {
         this.$children[0].$children[i].$children[0].highlighted = false;
       }
-      if (this.highlighted !== false) {
-        this.$children[0].$children[this.highlighted - 1].$el.scrollIntoView({
+      if (this.highlightedIndex >= 0) {
+        this.$children[0].$children[this.highlightedIndex].$el.scrollIntoView({
           block: 'end', behavior: 'smooth'
         });
 
-        this.$children[0].$children[this.highlighted - 1].$children[0].highlighted = true;
+        this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
       }
     }
   },
