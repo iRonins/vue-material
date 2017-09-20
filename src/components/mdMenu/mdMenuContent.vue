@@ -41,6 +41,10 @@
 
         this.oldHighlight = this.highlighted;
 
+        if (this.highlighted === false && this.getSelectedIndex() > -1) {
+          this.highlighted = this.getSelectedIndex() + 1;
+        }
+
         if (direction === 'up') {
           if (this.highlighted < 1) {
             this.highlighted = 1;
@@ -97,6 +101,9 @@
 
           this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
         }
+      },
+      getSelectedIndex() {
+        return this.getOptions().findIndex(({ isSelected }) => isSelected);
       }
     },
     mounted() {
