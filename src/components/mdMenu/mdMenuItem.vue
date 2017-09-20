@@ -75,11 +75,12 @@
             if (this.parentMenu.mdCloseOnSelect) {
               this.parentContent.close();
             }
-
+            this.highlighted = false;
             this.$emit('click', $event);
             this.$emit('selected', $event);
           }
         } else if (!this.disabled) {
+          this.highlighted = false;
           this.$emit('click', $event);
           this.$emit('selected', $event);
         }

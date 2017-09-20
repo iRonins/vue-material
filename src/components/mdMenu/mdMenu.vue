@@ -2,7 +2,7 @@
   <div class="md-menu">
     <slot></slot>
 
-    <md-backdrop class="md-menu-backdrop md-transparent md-active" ref="backdrop" @close="close"></md-backdrop>
+    <md-backdrop class="md-menu-backdrop md-transparent md-active" ref="backdrop" @close="backdropClose"></md-backdrop>
   </div>
 </template>
 
@@ -231,6 +231,13 @@
         } else {
           this.open();
         }
+      },
+      backdropClose() {
+        if (this.$children[0] && this.$children[0].hasOwnProperty('highlighted')) {
+          this.$children[0].highlighted = false;
+          this.$children[0].highlightChildren();
+        }
+        this.close();
       }
     },
     mounted() {
