@@ -11147,6 +11147,13 @@ exports.default = {
       } else {
         this.open();
       }
+    },
+    backdropClose: function backdropClose() {
+      if (this.$children[0] && this.$children[0].hasOwnProperty('highlighted')) {
+        this.$children[0].highlighted = false;
+        this.$children[0].highlightChildren();
+      }
+      this.close();
     }
   },
   mounted: function mounted() {
@@ -11249,7 +11256,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "backdrop",
     staticClass: "md-menu-backdrop md-transparent md-active",
     on: {
-      "close": _vm.close
+      "close": _vm.backdropClose
     }
   })], 2)
 },staticRenderFns: []}
@@ -11396,11 +11403,12 @@ exports.default = {
           if (this.parentMenu.mdCloseOnSelect) {
             this.parentContent.close();
           }
-
+          this.highlighted = false;
           this.$emit('click', $event);
           this.$emit('selected', $event);
         }
       } else if (!this.disabled) {
+        this.highlighted = false;
         this.$emit('click', $event);
         this.$emit('selected', $event);
       }
@@ -11578,6 +11586,10 @@ exports.default = {
 
       this.oldHighlight = this.highlighted;
 
+      if (this.highlighted === false && this.getSelectedIndex() > -1) {
+        this.highlighted = this.getSelectedIndex() + 1;
+      }
+
       if (direction === 'up') {
         if (this.highlighted < 1) {
           this.highlighted = 1;
@@ -11646,6 +11658,12 @@ exports.default = {
 
         this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
       }
+    },
+    getSelectedIndex: function getSelectedIndex() {
+      return this.getOptions().findIndex((function (_ref4) {
+        var isSelected = _ref4.isSelected;
+        return isSelected;
+      }));
     }
   },
   mounted: function mounted() {
