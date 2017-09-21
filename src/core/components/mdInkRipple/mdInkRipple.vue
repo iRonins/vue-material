@@ -10,10 +10,10 @@
   const addEvent = (target, type, handler) => {
     if (type === 'start') {
       target.addEventListener('mousedown', handler);
-      target.addEventListener('touchstart', handler);
+      target.addEventListener('touchstart', handler, {passive: true});
     } else {
       target.addEventListener('mouseup', handler);
-      target.addEventListener('touchend', handler);
+      target.addEventListener('touchend', handler, {passive: true});
     }
   };
   const removeEvent = (target, type, handler) => {
