@@ -205,6 +205,7 @@
       },
       update() {
         if (!this.query && !this.list.length) {
+          this.closeMenu();
           return this.reset();
         }
 
