@@ -677,7 +677,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdSelect/mdSelect.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdSelect/mdSelect.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdSelect.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -838,6 +838,21 @@ exports.default = {
     }
   },
   methods: {
+    onArrowKeyDown: function onArrowKeyDown() {
+      this.$children[0].open();
+    },
+    onFocus: function onFocus(event) {
+      if (this.parentContainer) {
+        this.parentContainer.isFocused = true;
+      }
+
+      this.$emit('focus', this.$el.value, event);
+    },
+    onBlur: function onBlur(event) {
+      this.parentContainer.isFocused = false;
+
+      this.$emit('blur', this.$el.value, event);
+    },
     changeValue: function changeValue(value) {
       this.$emit('input', value);
       this.$emit('change', value);
@@ -890,11 +905,15 @@ exports.default = {
       return {};
     },
     onOpen: function onOpen() {
+      this.onFocus();
       if (this.lastSelected) {
         this.lastSelected.scrollIntoViewIfNeeded(true);
       }
-
       this.$emit('opened');
+    },
+    onClose: function onClose() {
+      this.$el.focus();
+      this.$emit('closed');
     },
     removeChild: function removeChild(index) {
       this.optionsAmount--;
@@ -1053,6 +1072,10 @@ exports.default = {
 //
 //
 //
+//
+//
+//
+//
 
 module.exports = exports['default'];
 
@@ -1064,16 +1087,26 @@ module.exports = exports['default'];
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "md-select",
-    class: [_vm.themeClass, _vm.classes]
+    class: [_vm.themeClass, _vm.classes],
+    attrs: {
+      "tabindex": "0"
+    },
+    on: {
+      "focus": _vm.onFocus,
+      "blur": _vm.onBlur,
+      "keydown": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "down", 40)) { return null; }
+        $event.preventDefault();
+        _vm.onArrowKeyDown($event)
+      }
+    }
   }, [_c('md-menu', _vm._b({
     attrs: {
       "md-close-on-select": !_vm.multiple
     },
     on: {
       "open": _vm.onOpen,
-      "close": function($event) {
-        _vm.$emit('closed')
-      }
+      "close": _vm.onClose
     }
   }, 'md-menu', _vm.mdMenuOptions, false), [_vm._t("icon"), _vm._v(" "), _c('span', {
     ref: "value",
@@ -1138,7 +1171,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdSelect/mdOption.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdSelect/mdOption.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdOption.vue: functional components are not supported with templates, they should use render functions.")}
 
