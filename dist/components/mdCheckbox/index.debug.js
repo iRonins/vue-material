@@ -337,7 +337,8 @@ exports.default = {
   mixins: [_mixin2.default],
   data: function data() {
     return {
-      checked: this.value || false
+      checked: this.value || false,
+      focused: false
     };
   },
 
@@ -345,7 +346,8 @@ exports.default = {
     classes: function classes() {
       return {
         'md-checked': this.isArray() ? this.value.indexOf(this.mdValue) >= 0 : this.checked,
-        'md-disabled': this.disabled
+        'md-disabled': this.disabled,
+        'md-keyboard-focus': this.focused
       };
     }
   },
@@ -358,7 +360,6 @@ exports.default = {
   },
   methods: {
     toggleCheck: function toggleCheck($event) {
-
       if (!this.disabled) {
         if (this.isArray()) {
           var index = this.value.indexOf(this.mdValue);
@@ -377,6 +378,13 @@ exports.default = {
           this.$emit('input', this.checked, $event);
         }
       }
+    },
+    onTabKeyUp: function onTabKeyUp() {
+      console.log('taa');
+      this.focused = true;
+    },
+    onBlur: function onBlur() {
+      this.focused = false;
     },
     isArray: function isArray() {
       return Array.isArray(this.value);
@@ -422,7 +430,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "keydown": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "space", 32)) { return null; }
         _vm.toggleCheck($event)
-      }
+      },
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "tab", 9)) { return null; }
+        _vm.onTabKeyUp($event)
+      },
+      "focusout": _vm.onBlur
     }
   }, [_c('input', {
     attrs: {
