@@ -1,6 +1,6 @@
 <template>
   <div class="md-checkbox" :class="[themeClass, classes]">
-    <div class="md-checkbox-container" @click.stop="toggleCheck" tabindex="0" @keydown.space="toggleCheck">
+    <div class="md-checkbox-container" @click.stop="toggleCheck" tabindex="0" @keydown.space="toggleCheck" @keyup.tab="onTabKeyUp" @focusout="onBlur">
       <input type="checkbox" :name="name" :id="id" :disabled="disabled" :value="mdValue" :checked="checked" tabindex="-1">
       <md-ink-ripple :md-disabled="disabled" />
     </div>
@@ -28,14 +28,16 @@
     mixins: [theme],
     data() {
       return {
-        checked: this.value || false
+        checked: this.value || false,
+        focused: false
       };
     },
     computed: {
       classes() {
         return {
           'md-checked': this.isArray() ? this.value.indexOf(this.mdValue) >= 0 : this.checked,
-          'md-disabled': this.disabled
+          'md-disabled': this.disabled,
+          'md-keyboard-focus': this.focused
         };
       }
     },
@@ -48,7 +50,6 @@
     },
     methods: {
       toggleCheck($event) {
-
         if (!this.disabled) {
           if (this.isArray()) {
             let index = this.value.indexOf(this.mdValue);
@@ -68,7 +69,13 @@
           }
         }
       },
-
+      onTabKeyUp() {
+        console.log('taa');
+        this.focused = true;
+      },
+      onBlur() {
+        this.focused = false;
+      },
       isArray() {
         return Array.isArray(this.value);
       }
