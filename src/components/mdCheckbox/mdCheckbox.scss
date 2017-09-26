@@ -26,10 +26,6 @@ $checkbox-touch-size: 48px;
     border: 2px solid rgba(#000, .54);
     transition: $swift-ease-out;
 
-    &:focus {
-      outline: none;
-    }
-
     &:before {
       width: $checkbox-touch-size;
       height: $checkbox-touch-size;
