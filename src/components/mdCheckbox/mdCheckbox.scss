@@ -80,11 +80,6 @@ $checkbox-touch-size: 48px;
       }
     }
   }
-  &.md-keyboard-focus {
-    .md-checkbox-container {
-      outline: -webkit-focus-ring-color auto 5px;
-    }
-  }
 
   .md-checkbox-label {
     height: $checkbox-size;
