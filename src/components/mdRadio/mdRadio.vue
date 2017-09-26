@@ -1,7 +1,7 @@
 <template>
   <div class="md-radio" :class="[themeClass, classes]">
     <div class="md-radio-container" @click.stop="toggleCheck">
-      <input type="radio" :name="name" :id="id" :disabled="disabled" :value="value">
+      <input type="radio" :name="name" :id="id" :disabled="disabled" :value="value" @focus="onFocus" @focusout="onBlur">
       <md-ink-ripple :md-disabled="disabled" />
     </div>
 
@@ -28,12 +28,18 @@
       },
       disabled: Boolean
     },
+    data() {
+      return {
+        focused: false
+      };
+    },
     mixins: [theme],
     computed: {
       classes() {
         return {
           'md-checked': typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString(),
-          'md-disabled': this.disabled
+          'md-disabled': this.disabled,
+          'md-keyboard-focus': this.focused
         };
       }
     },
@@ -43,6 +49,12 @@
           this.$emit('change', this.mdValue, $event);
           this.$emit('input', this.mdValue, $event);
         }
+      },
+      onFocus() {
+        this.focused = true;
+      },
+      onBlur() {
+        this.focused = false;
       }
     }
   };
