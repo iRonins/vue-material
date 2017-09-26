@@ -5289,6 +5289,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": function($event) {
         $event.stopPropagation();
         _vm.toggleCheck($event)
+      },
+      "keydown": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "space", 32)) { return null; }
+        _vm.toggleCheck($event)
       }
     }
   }, [_c('input', {
