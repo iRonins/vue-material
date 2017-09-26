@@ -1,11 +1,15 @@
 <template>
   <div
     class="md-select"
-    :class="[themeClass, classes]">
+    :class="[themeClass, classes]"
+    tabindex="0"
+    @focus="onFocus"
+    @blur="onBlur"
+    @keydown.down.prevent="onArrowKeyDown">
     <md-menu
       :md-close-on-select="!multiple"
       @open="onOpen"
-      @close="$emit('closed')"
+      @close="onClose"
       v-bind="mdMenuOptions">
       <slot name="icon"></slot>
       <span
@@ -67,7 +71,7 @@
       mdMenuClass: String,
       mdMenuOptions: Object
     },
-    mixins: [theme],
+    mixins: [theme ],
     data() {
       return {
         lastSelected: null,
@@ -120,6 +124,21 @@
       }
     },
     methods: {
+      onArrowKeyDown() {
+        this.$children[0].open();
+      },
+      onFocus(event) {
+        if (this.parentContainer) {
+          this.parentContainer.isFocused = true;
+        }
+
+        this.$emit('focus', this.$el.value, event);
+      },
+      onBlur(event) {
+        this.parentContainer.isFocused = false;
+
+        this.$emit('blur', this.$el.value, event);
+      },
       changeValue(value) {
         this.$emit('input', value);
         this.$emit('change', value);
@@ -169,11 +188,15 @@
         return {};
       },
       onOpen() {
+        this.onFocus();
         if (this.lastSelected) {
           this.lastSelected.scrollIntoViewIfNeeded(true);
         }
-
         this.$emit('opened');
+      },
+      onClose() {
+        this.$el.focus();
+        this.$emit('closed');
       },
       removeChild(index) {
         this.optionsAmount--;
