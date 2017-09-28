@@ -93,6 +93,7 @@
       highlightChildren() {
         for (var i = 0; i < this.itemsAmount; i++) {
           this.$children[0].$children[i].$children[0].highlighted = false;
+          this.$children[0].$children[i].highlighted = false;
         }
         if (this.highlightedIndex >= 0) {
           this.$children[0].$children[this.highlightedIndex].$el.scrollIntoView({
@@ -100,6 +101,7 @@
           });
 
           this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
+          this.$children[0].$children[this.highlightedIndex].highlighted = true;
         }
       },
       getSelectedIndex() {
