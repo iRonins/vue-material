@@ -263,7 +263,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenu.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdMenu/mdMenu.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenu.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -685,7 +685,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenuItem.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdMenu/mdMenuItem.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuItem.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -913,7 +913,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenuContent.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdMenu/mdMenuContent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuContent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1026,20 +1026,22 @@ exports.default = {
         return child.$el.classList.contains('md-option');
       }));
     },
-    onKeyDown: function onKeyDown(_ref) {
+    onKeyDown: function onKeyDown($event) {
       var _this = this;
 
-      var keyCode = _ref.keyCode,
-          key = _ref.key;
+      var keyCode = $event.keyCode,
+          key = $event.key;
+
 
       if (keyCode >= 65 && keyCode <= 90) {
+        $event.preventDefault();
         this.itemsAmount = this.$children[0].$children.length;
-        var indexes = this.$children[0].$children.filter((function (_ref2) {
-          var $el = _ref2.$el;
+        var indexes = this.$children[0].$children.filter((function (_ref) {
+          var $el = _ref.$el;
 
           return $el.innerText.charAt(0).toLocaleLowerCase() === key;
-        })).map((function (_ref3) {
-          var index = _ref3.index;
+        })).map((function (_ref2) {
+          var index = _ref2.index;
           return index;
         }));
         var highlightedIndex = indexes.findIndex((function (item) {
@@ -1067,8 +1069,8 @@ exports.default = {
       }
     },
     getSelectedIndex: function getSelectedIndex() {
-      return this.getOptions().findIndex((function (_ref4) {
-        var isSelected = _ref4.isSelected;
+      return this.getOptions().findIndex((function (_ref3) {
+        var isSelected = _ref3.isSelected;
         return isSelected;
       }));
     }

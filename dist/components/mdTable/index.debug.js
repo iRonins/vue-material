@@ -796,7 +796,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTable.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTable.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTable.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -991,7 +991,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTableRow.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTableRow.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTableRow.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1240,7 +1240,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTableHead.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTableHead.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTableHead.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1415,7 +1415,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTableCell.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTableCell.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTableCell.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1532,7 +1532,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTableEdit.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTableEdit.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTableEdit.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1719,7 +1719,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTableCard.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTableCard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTableCard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1809,7 +1809,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTableAlternateHeader.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTableAlternateHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTableAlternateHeader.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1957,7 +1957,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdTable/mdTablePagination.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdTable/mdTablePagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTablePagination.vue: functional components are not supported with templates, they should use render functions.")}
 
