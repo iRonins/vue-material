@@ -11673,10 +11673,6 @@ exports.default = {
         this.$children[0].$children[i].highlighted = false;
       }
       if (this.highlightedIndex >= 0) {
-        this.$children[0].$children[this.highlightedIndex].$el.scrollIntoView({
-          block: 'end', behavior: 'smooth'
-        });
-
         this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
         this.$children[0].$children[this.highlightedIndex].highlighted = true;
       }
