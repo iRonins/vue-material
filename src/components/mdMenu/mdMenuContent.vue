@@ -39,6 +39,10 @@
       highlightItem(direction) {
         this.itemsAmount = this.$children[0].$children.length;
 
+        if (this.itemsAmount < this.highlighted - 1) {
+          this.highlighted = 1;
+        }
+
         this.oldHighlight = this.highlighted;
 
         if (this.highlighted === false && this.getSelectedIndex() > -1) {
@@ -85,6 +89,8 @@
           const highlightedIndex = indexes.findIndex((item) => item === this.highlighted);
           const indexesLength = indexes.length;
           const index = (highlightedIndex + 1) % indexesLength;
+
+          debugger;
 
           this.highlighted = indexesLength ? indexes[index] : false;
           this.highlightChildren();
