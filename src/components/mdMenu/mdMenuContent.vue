@@ -80,8 +80,11 @@
           return child.$el.classList.contains('md-option');
         });
       },
-      onKeyDown({ keyCode, key }) {
+      onKeyDown($event) {
+        const { keyCode, key } = $event;
+
         if (keyCode >= 65 && keyCode <= 90) {
+          $event.preventDefault();
           this.itemsAmount = this.$children[0].$children.length;
           const indexes = this.$children[0].$children.filter(({ $el }) => {
             return $el.innerText.charAt(0).toLocaleLowerCase() === key;
@@ -101,7 +104,7 @@
         }
         if (this.highlightedIndex >= 0) {
           this.$children[0].$children[this.highlightedIndex].$el.scrollIntoView({
-            block: 'end', behavior: 'smooth'
+            block: 'start', behavior: 'smooth', inline: 'nearest'
           });
 
           this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
