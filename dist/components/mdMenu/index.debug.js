@@ -263,7 +263,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenu.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdMenu/mdMenu.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenu.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -685,7 +685,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenuItem.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdMenu/mdMenuItem.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuItem.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -913,7 +913,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenuContent.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdMenu/mdMenuContent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuContent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1064,9 +1064,7 @@ exports.default = {
         this.$children[0].$children[i].highlighted = false;
       }
       if (this.highlightedIndex >= 0) {
-        this.$children[0].$children[this.highlightedIndex].$el.scrollIntoView({
-          block: 'start', behavior: 'smooth', inline: 'nearest'
-        });
+        this.$el.scrollTop = this.$children[0].$children[this.highlightedIndex].$el.offsetTop;
 
         this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
         this.$children[0].$children[this.highlightedIndex].highlighted = true;
