@@ -980,7 +980,6 @@ exports.default = {
       items: [],
       loading: false,
       query: '',
-      oldQuery: '',
       selected: null,
       isItemSelected: 0,
       timeout: 0,
@@ -1054,8 +1053,7 @@ exports.default = {
 
         _this2.loading = false;
 
-        if (!_this2.itemsEmpty && _this2.oldQuery !== queryObject.q) {
-          _this2.oldQuery = queryObject;
+        if (!_this2.itemsEmpty && !_this2.isItemSelected) {
           _this2.openMenu();
         } else {
           _this2.closeMenu();
@@ -1156,6 +1154,7 @@ exports.default = {
       }
     },
     closeMenu: function closeMenu() {
+      this.isItemSelected = 0;
       this.$refs.menu.close();
     },
     updateValues: function updateValues(value) {

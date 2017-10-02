@@ -5252,7 +5252,6 @@ exports.default = {
       }
     },
     onTabKeyUp: function onTabKeyUp() {
-      console.log('taa');
       this.focused = true;
     },
     onBlur: function onBlur() {
@@ -5300,6 +5299,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       "keydown": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "space", 32)) { return null; }
+        $event.preventDefault();
         _vm.toggleCheck($event)
       },
       "keyup": function($event) {
@@ -8161,7 +8161,6 @@ exports.default = {
       items: [],
       loading: false,
       query: '',
-      oldQuery: '',
       selected: null,
       isItemSelected: 0,
       timeout: 0,
@@ -8235,8 +8234,7 @@ exports.default = {
 
         _this2.loading = false;
 
-        if (!_this2.itemsEmpty && _this2.oldQuery !== queryObject.q) {
-          _this2.oldQuery = queryObject;
+        if (!_this2.itemsEmpty && !_this2.isItemSelected) {
           _this2.openMenu();
         } else {
           _this2.closeMenu();
@@ -8337,6 +8335,7 @@ exports.default = {
       }
     },
     closeMenu: function closeMenu() {
+      this.isItemSelected = 0;
       this.$refs.menu.close();
     },
     updateValues: function updateValues(value) {

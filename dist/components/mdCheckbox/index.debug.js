@@ -380,7 +380,6 @@ exports.default = {
       }
     },
     onTabKeyUp: function onTabKeyUp() {
-      console.log('taa');
       this.focused = true;
     },
     onBlur: function onBlur() {
@@ -429,6 +428,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       "keydown": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "space", 32)) { return null; }
+        $event.preventDefault();
         _vm.toggleCheck($event)
       },
       "keyup": function($event) {
