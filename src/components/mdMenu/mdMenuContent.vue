@@ -90,8 +90,6 @@
           const indexesLength = indexes.length;
           const index = (highlightedIndex + 1) % indexesLength;
 
-          debugger;
-
           this.highlighted = indexesLength ? indexes[index] : false;
           this.highlightChildren();
         }
