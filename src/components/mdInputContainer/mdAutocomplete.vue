@@ -57,7 +57,6 @@
         items: [],
         loading: false,
         query: '',
-        oldQuery: '',
         selected: null,
         isItemSelected: 0,
         timeout: 0,
@@ -131,8 +130,7 @@
 
             this.loading = false;
 
-            if (!this.itemsEmpty && this.oldQuery !== queryObject.q) {
-              this.oldQuery = queryObject;
+            if (!this.itemsEmpty && !this.isItemSelected) {
               this.openMenu();
             } else {
               this.closeMenu();
@@ -233,6 +231,7 @@
         }
       },
       closeMenu() {
+        this.isItemSelected = 0;
         this.$refs.menu.close();
       },
       updateValues(value) {
