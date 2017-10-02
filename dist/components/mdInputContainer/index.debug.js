@@ -1128,6 +1128,7 @@ exports.default = {
     },
     update: function update() {
       if (!this.query && !this.list.length) {
+        this.closeMenu();
         return this.reset();
       }
 
@@ -1153,6 +1154,7 @@ exports.default = {
       }
     },
     closeMenu: function closeMenu() {
+      this.isItemSelected = 0;
       this.$refs.menu.close();
     },
     updateValues: function updateValues(value) {

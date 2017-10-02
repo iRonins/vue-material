@@ -337,12 +337,19 @@ exports.default = {
     },
     disabled: Boolean
   },
+  data: function data() {
+    return {
+      focused: false
+    };
+  },
+
   mixins: [_mixin2.default],
   computed: {
     classes: function classes() {
       return {
         'md-checked': typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString(),
-        'md-disabled': this.disabled
+        'md-disabled': this.disabled,
+        'md-keyboard-focus': this.focused
       };
     }
   },
@@ -352,6 +359,12 @@ exports.default = {
         this.$emit('change', this.mdValue, $event);
         this.$emit('input', this.mdValue, $event);
       }
+    },
+    onFocus: function onFocus() {
+      this.focused = true;
+    },
+    onBlur: function onBlur() {
+      this.focused = false;
     }
   }
 }; //
@@ -398,6 +411,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     domProps: {
       "value": _vm.value
+    },
+    on: {
+      "focus": _vm.onFocus,
+      "focusout": _vm.onBlur
     }
   }), _vm._v(" "), _c('md-ink-ripple', {
     attrs: {

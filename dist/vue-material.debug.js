@@ -2809,10 +2809,10 @@ Object.defineProperty(exports, "__esModule", {
 var addEvent = function addEvent(target, type, handler) {
   if (type === 'start') {
     target.addEventListener('mousedown', handler);
-    target.addEventListener('touchstart', handler);
+    target.addEventListener('touchstart', handler, { passive: true });
   } else {
     target.addEventListener('mouseup', handler);
-    target.addEventListener('touchend', handler);
+    target.addEventListener('touchend', handler, { passive: true });
   }
 };
 var removeEvent = function removeEvent(target, type, handler) {
@@ -5209,7 +5209,8 @@ exports.default = {
   mixins: [_mixin2.default],
   data: function data() {
     return {
-      checked: this.value || false
+      checked: this.value || false,
+      focused: false
     };
   },
 
@@ -5217,7 +5218,8 @@ exports.default = {
     classes: function classes() {
       return {
         'md-checked': this.isArray() ? this.value.indexOf(this.mdValue) >= 0 : this.checked,
-        'md-disabled': this.disabled
+        'md-disabled': this.disabled,
+        'md-keyboard-focus': this.focused
       };
     }
   },
@@ -5230,7 +5232,6 @@ exports.default = {
   },
   methods: {
     toggleCheck: function toggleCheck($event) {
-
       if (!this.disabled) {
         if (this.isArray()) {
           var index = this.value.indexOf(this.mdValue);
@@ -5249,6 +5250,12 @@ exports.default = {
           this.$emit('input', this.checked, $event);
         }
       }
+    },
+    onTabKeyUp: function onTabKeyUp() {
+      this.focused = true;
+    },
+    onBlur: function onBlur() {
+      this.focused = false;
     },
     isArray: function isArray() {
       return Array.isArray(this.value);
@@ -5289,7 +5296,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": function($event) {
         $event.stopPropagation();
         _vm.toggleCheck($event)
-      }
+      },
+      "keydown": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "space", 32)) { return null; }
+        $event.preventDefault();
+        _vm.toggleCheck($event)
+      },
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "tab", 9)) { return null; }
+        _vm.onTabKeyUp($event)
+      },
+      "focusout": _vm.onBlur
     }
   }, [_c('input', {
     attrs: {
@@ -8292,6 +8309,7 @@ exports.default = {
     },
     update: function update() {
       if (!this.query && !this.list.length) {
+        this.closeMenu();
         return this.reset();
       }
 
@@ -8317,6 +8335,7 @@ exports.default = {
       }
     },
     closeMenu: function closeMenu() {
+      this.isItemSelected = 0;
       this.$refs.menu.close();
     },
     updateValues: function updateValues(value) {
@@ -11147,6 +11166,13 @@ exports.default = {
       } else {
         this.open();
       }
+    },
+    backdropClose: function backdropClose() {
+      if (this.$children[0] && this.$children[0].hasOwnProperty('highlighted')) {
+        this.$children[0].highlighted = false;
+        this.$children[0].highlightChildren();
+      }
+      this.close();
     }
   },
   mounted: function mounted() {
@@ -11249,7 +11275,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "backdrop",
     staticClass: "md-menu-backdrop md-transparent md-active",
     on: {
-      "close": _vm.close
+      "close": _vm.backdropClose
     }
   })], 2)
 },staticRenderFns: []}
@@ -11396,11 +11422,12 @@ exports.default = {
           if (this.parentMenu.mdCloseOnSelect) {
             this.parentContent.close();
           }
-
+          this.highlighted = false;
           this.$emit('click', $event);
           this.$emit('selected', $event);
         }
       } else if (!this.disabled) {
+        this.highlighted = false;
         this.$emit('click', $event);
         this.$emit('selected', $event);
       }
@@ -11563,6 +11590,11 @@ exports.default = {
     };
   },
 
+  computed: {
+    highlightedIndex: function highlightedIndex() {
+      return this.highlighted - 1;
+    }
+  },
   methods: {
     close: function close() {
       this.highlighted = false;
@@ -11577,7 +11609,14 @@ exports.default = {
 
       this.oldHighlight = this.highlighted;
 
+      if (this.highlighted === false && this.getSelectedIndex() > -1) {
+        this.highlighted = this.getSelectedIndex() + 1;
+      }
+
       if (direction === 'up') {
+        if (this.highlighted < 1) {
+          this.highlighted = 1;
+        }
         if (this.highlighted === 1) {
           this.highlighted = this.itemsAmount;
         } else {
@@ -11597,7 +11636,7 @@ exports.default = {
     },
     fireClick: function fireClick() {
       if (this.highlighted > 0) {
-        this.getOptions()[this.highlighted - 1].$children[0].close();
+        this.getOptions()[this.highlightedIndex].$children[0].close();
       }
     },
     getOptions: function getOptions() {
@@ -11605,20 +11644,22 @@ exports.default = {
         return child.$el.classList.contains('md-option');
       }));
     },
-    onKeyDown: function onKeyDown(_ref) {
+    onKeyDown: function onKeyDown($event) {
       var _this = this;
 
-      var keyCode = _ref.keyCode,
-          key = _ref.key;
+      var keyCode = $event.keyCode,
+          key = $event.key;
+
 
       if (keyCode >= 65 && keyCode <= 90) {
+        $event.preventDefault();
         this.itemsAmount = this.$children[0].$children.length;
-        var indexes = this.$children[0].$children.filter((function (_ref2) {
-          var $el = _ref2.$el;
+        var indexes = this.$children[0].$children.filter((function (_ref) {
+          var $el = _ref.$el;
 
           return $el.innerText.charAt(0).toLocaleLowerCase() === key;
-        })).map((function (_ref3) {
-          var index = _ref3.index;
+        })).map((function (_ref2) {
+          var index = _ref2.index;
           return index;
         }));
         var highlightedIndex = indexes.findIndex((function (item) {
@@ -11634,14 +11675,20 @@ exports.default = {
     highlightChildren: function highlightChildren() {
       for (var i = 0; i < this.itemsAmount; i++) {
         this.$children[0].$children[i].$children[0].highlighted = false;
+        this.$children[0].$children[i].highlighted = false;
       }
-      if (this.highlighted !== false) {
-        this.$children[0].$children[this.highlighted - 1].$el.scrollIntoView({
-          block: 'end', behavior: 'smooth'
-        });
+      if (this.highlightedIndex >= 0) {
+        this.$el.scrollTop = this.$children[0].$children[this.highlightedIndex].$el.offsetTop;
 
-        this.$children[0].$children[this.highlighted - 1].$children[0].highlighted = true;
+        this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
+        this.$children[0].$children[this.highlightedIndex].highlighted = true;
       }
+    },
+    getSelectedIndex: function getSelectedIndex() {
+      return this.getOptions().findIndex((function (_ref3) {
+        var isSelected = _ref3.isSelected;
+        return isSelected;
+      }));
     }
   },
   mounted: function mounted() {
@@ -12744,12 +12791,19 @@ exports.default = {
     },
     disabled: Boolean
   },
+  data: function data() {
+    return {
+      focused: false
+    };
+  },
+
   mixins: [_mixin2.default],
   computed: {
     classes: function classes() {
       return {
         'md-checked': typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString(),
-        'md-disabled': this.disabled
+        'md-disabled': this.disabled,
+        'md-keyboard-focus': this.focused
       };
     }
   },
@@ -12759,6 +12813,12 @@ exports.default = {
         this.$emit('change', this.mdValue, $event);
         this.$emit('input', this.mdValue, $event);
       }
+    },
+    onFocus: function onFocus() {
+      this.focused = true;
+    },
+    onBlur: function onBlur() {
+      this.focused = false;
     }
   }
 }; //
@@ -12804,6 +12864,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     domProps: {
       "value": _vm.value
+    },
+    on: {
+      "focus": _vm.onFocus,
+      "focusout": _vm.onBlur
     }
   }), _vm._v(" "), _c('md-ink-ripple', {
     attrs: {
@@ -13420,6 +13484,21 @@ exports.default = {
     }
   },
   methods: {
+    onArrowKeyDown: function onArrowKeyDown() {
+      this.$children[0].open();
+    },
+    onFocus: function onFocus(event) {
+      if (this.parentContainer) {
+        this.parentContainer.isFocused = true;
+      }
+
+      this.$emit('focus', this.$el.value, event);
+    },
+    onBlur: function onBlur(event) {
+      this.parentContainer.isFocused = false;
+
+      this.$emit('blur', this.$el.value, event);
+    },
     changeValue: function changeValue(value) {
       this.$emit('input', value);
       this.$emit('change', value);
@@ -13472,11 +13551,15 @@ exports.default = {
       return {};
     },
     onOpen: function onOpen() {
+      this.onFocus();
       if (this.lastSelected) {
         this.lastSelected.scrollIntoViewIfNeeded(true);
       }
-
       this.$emit('opened');
+    },
+    onClose: function onClose() {
+      this.$el.focus();
+      this.$emit('closed');
     },
     removeChild: function removeChild(index) {
       this.optionsAmount--;
@@ -13635,6 +13718,10 @@ exports.default = {
 //
 //
 //
+//
+//
+//
+//
 
 module.exports = exports['default'];
 
@@ -13645,16 +13732,26 @@ module.exports = exports['default'];
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "md-select",
-    class: [_vm.themeClass, _vm.classes]
+    class: [_vm.themeClass, _vm.classes],
+    attrs: {
+      "tabindex": "0"
+    },
+    on: {
+      "focus": _vm.onFocus,
+      "blur": _vm.onBlur,
+      "keydown": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "down", 40)) { return null; }
+        $event.preventDefault();
+        _vm.onArrowKeyDown($event)
+      }
+    }
   }, [_c('md-menu', _vm._b({
     attrs: {
       "md-close-on-select": !_vm.multiple
     },
     on: {
       "open": _vm.onOpen,
-      "close": function($event) {
-        _vm.$emit('closed')
-      }
+      "close": _vm.onClose
     }
   }, 'md-menu', _vm.mdMenuOptions, false), [_vm._t("icon"), _vm._v(" "), _c('span', {
     ref: "value",

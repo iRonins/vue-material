@@ -1,6 +1,6 @@
 <template>
   <div class="md-checkbox" :class="[themeClass, classes]">
-    <div class="md-checkbox-container" @click.stop="toggleCheck" tabindex="0" @keydown.space="toggleCheck" @keyup.tab="onTabKeyUp" @focusout="onBlur">
+    <div class="md-checkbox-container" @click.stop="toggleCheck" tabindex="0" @keydown.space.prevent="toggleCheck" @keyup.tab="onTabKeyUp" @focusout="onBlur">
       <input type="checkbox" :name="name" :id="id" :disabled="disabled" :value="mdValue" :checked="checked" tabindex="-1">
       <md-ink-ripple :md-disabled="disabled" />
     </div>
@@ -70,7 +70,6 @@
         }
       },
       onTabKeyUp() {
-        console.log('taa');
         this.focused = true;
       },
       onBlur() {

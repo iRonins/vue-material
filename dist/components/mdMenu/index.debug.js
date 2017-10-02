@@ -544,6 +544,13 @@ exports.default = {
       } else {
         this.open();
       }
+    },
+    backdropClose: function backdropClose() {
+      if (this.$children[0] && this.$children[0].hasOwnProperty('highlighted')) {
+        this.$children[0].highlighted = false;
+        this.$children[0].highlightChildren();
+      }
+      this.close();
     }
   },
   mounted: function mounted() {
@@ -648,7 +655,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "backdrop",
     staticClass: "md-menu-backdrop md-transparent md-active",
     on: {
-      "close": _vm.close
+      "close": _vm.backdropClose
     }
   })], 2)
 },staticRenderFns: []}
@@ -797,11 +804,12 @@ exports.default = {
           if (this.parentMenu.mdCloseOnSelect) {
             this.parentContent.close();
           }
-
+          this.highlighted = false;
           this.$emit('click', $event);
           this.$emit('selected', $event);
         }
       } else if (!this.disabled) {
+        this.highlighted = false;
         this.$emit('click', $event);
         this.$emit('selected', $event);
       }
@@ -968,6 +976,11 @@ exports.default = {
     };
   },
 
+  computed: {
+    highlightedIndex: function highlightedIndex() {
+      return this.highlighted - 1;
+    }
+  },
   methods: {
     close: function close() {
       this.highlighted = false;
@@ -982,7 +995,14 @@ exports.default = {
 
       this.oldHighlight = this.highlighted;
 
+      if (this.highlighted === false && this.getSelectedIndex() > -1) {
+        this.highlighted = this.getSelectedIndex() + 1;
+      }
+
       if (direction === 'up') {
+        if (this.highlighted < 1) {
+          this.highlighted = 1;
+        }
         if (this.highlighted === 1) {
           this.highlighted = this.itemsAmount;
         } else {
@@ -1002,7 +1022,7 @@ exports.default = {
     },
     fireClick: function fireClick() {
       if (this.highlighted > 0) {
-        this.getOptions()[this.highlighted - 1].$children[0].close();
+        this.getOptions()[this.highlightedIndex].$children[0].close();
       }
     },
     getOptions: function getOptions() {
@@ -1010,20 +1030,22 @@ exports.default = {
         return child.$el.classList.contains('md-option');
       }));
     },
-    onKeyDown: function onKeyDown(_ref) {
+    onKeyDown: function onKeyDown($event) {
       var _this = this;
 
-      var keyCode = _ref.keyCode,
-          key = _ref.key;
+      var keyCode = $event.keyCode,
+          key = $event.key;
+
 
       if (keyCode >= 65 && keyCode <= 90) {
+        $event.preventDefault();
         this.itemsAmount = this.$children[0].$children.length;
-        var indexes = this.$children[0].$children.filter((function (_ref2) {
-          var $el = _ref2.$el;
+        var indexes = this.$children[0].$children.filter((function (_ref) {
+          var $el = _ref.$el;
 
           return $el.innerText.charAt(0).toLocaleLowerCase() === key;
-        })).map((function (_ref3) {
-          var index = _ref3.index;
+        })).map((function (_ref2) {
+          var index = _ref2.index;
           return index;
         }));
         var highlightedIndex = indexes.findIndex((function (item) {
@@ -1039,14 +1061,20 @@ exports.default = {
     highlightChildren: function highlightChildren() {
       for (var i = 0; i < this.itemsAmount; i++) {
         this.$children[0].$children[i].$children[0].highlighted = false;
+        this.$children[0].$children[i].highlighted = false;
       }
-      if (this.highlighted !== false) {
-        this.$children[0].$children[this.highlighted - 1].$el.scrollIntoView({
-          block: 'end', behavior: 'smooth'
-        });
+      if (this.highlightedIndex >= 0) {
+        this.$el.scrollTop = this.$children[0].$children[this.highlightedIndex].$el.offsetTop;
 
-        this.$children[0].$children[this.highlighted - 1].$children[0].highlighted = true;
+        this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
+        this.$children[0].$children[this.highlightedIndex].highlighted = true;
       }
+    },
+    getSelectedIndex: function getSelectedIndex() {
+      return this.getOptions().findIndex((function (_ref3) {
+        var isSelected = _ref3.isSelected;
+        return isSelected;
+      }));
     }
   },
   mounted: function mounted() {
