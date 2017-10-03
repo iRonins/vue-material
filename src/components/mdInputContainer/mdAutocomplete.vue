@@ -29,6 +29,7 @@
         @keydown.down.prevent="contentHighlightItem('down')"
         @keydown.enter.prevent="contentFireClick()"
         @keydown.tab="closeMenu()"
+        @keydown.esc="closeMenu()"
         md-menu-trigger/>
 
       <md-menu-content class="md-autocomplete-content">
@@ -100,6 +101,10 @@
         }
 
         this.timeout = window.setTimeout(() => {
+          if (this.query.length < this.minChars) {
+            this.closeMenu();
+            return;
+          }
           if (!this.listIsEmpty) {
             this.renderFilteredList();
             return;
