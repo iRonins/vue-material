@@ -1,6 +1,6 @@
 <template>
   <div class="md-checkbox" :class="[themeClass, classes]">
-    <div class="md-checkbox-container" @click.stop="toggleCheck" tabindex="0" @keydown.space.prevent="toggleCheck" @keyup.tab="onTabKeyUp" @focusout="onBlur">
+    <div class="md-checkbox-container" @click.stop="toggleCheck" :tabindex="tabindex" @keydown.space.prevent="toggleCheck" @keyup.tab="onTabKeyUp" @focusout="onBlur">
       <input type="checkbox" :name="name" :id="id" :disabled="disabled" :value="mdValue" :checked="checked" tabindex="-1">
       <md-ink-ripple :md-disabled="disabled" />
     </div>
@@ -23,7 +23,10 @@
       value: [String, Boolean, Array],
       id: String,
       disabled: Boolean,
-      mdValue: [String]
+      mdValue: [String],
+      tabindex: {
+        default: 0
+      }
     },
     mixins: [theme],
     data() {

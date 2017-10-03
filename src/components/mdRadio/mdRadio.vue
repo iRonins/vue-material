@@ -1,7 +1,7 @@
 <template>
   <div class="md-radio" :class="[themeClass, classes]">
     <div class="md-radio-container" @click.stop="toggleCheck">
-      <input type="radio" :name="name" :id="id" :disabled="disabled" :value="value" @focus="onFocus" @focusout="onBlur">
+      <input type="radio" :name="name" :id="id" :disabled="disabled" :value="value" @focus="onFocus" @focusout="onBlur" :tabindex="tabindex">
       <md-ink-ripple :md-disabled="disabled" />
     </div>
 
@@ -26,7 +26,10 @@
         type: [String, Boolean, Number],
         required: true
       },
-      disabled: Boolean
+      disabled: Boolean,
+      tabindex: {
+        default: 0
+      }
     },
     data() {
       return {
