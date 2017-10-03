@@ -101,6 +101,10 @@
         }
 
         this.timeout = window.setTimeout(() => {
+          if (this.query.length < this.minChars) {
+            this.closeMenu();
+            return;
+          }
           if (!this.listIsEmpty) {
             this.renderFilteredList();
             return;
