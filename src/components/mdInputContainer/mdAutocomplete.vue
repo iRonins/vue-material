@@ -29,6 +29,7 @@
         @keydown.down.prevent="contentHighlightItem('down')"
         @keydown.enter.prevent="contentFireClick()"
         @keydown.tab="closeMenu()"
+        @keydown.esc="closeMenu()"
         md-menu-trigger/>
 
       <md-menu-content class="md-autocomplete-content">
