@@ -156,6 +156,13 @@
           this.openMenu();
         }
       },
+      onBlur() {
+        if (this.parentContainer) {
+          this.parentContainer.isFocused = false;
+        }
+
+        this.closeMenu();
+      },
       onInput() {
         this.updateValues();
         this.$emit('change', this.$refs.input.value);
