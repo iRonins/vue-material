@@ -40,10 +40,13 @@
     computed: {
       classes() {
         return {
-          'md-checked': typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString(),
+          'md-checked': this.isChecked,
           'md-disabled': this.disabled,
           'md-keyboard-focus': this.focused
         };
+      },
+      isChecked() {
+        return typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString();
       }
     },
     methods: {

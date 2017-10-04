@@ -96,9 +96,9 @@
             </div>
 
             <div>
-              <md-radio v-model="radio4" id="my-test10" name="my-test-group3" md-value="1">My beautiful radio</md-radio>
-              <md-radio v-model="radio4" id="my-test11" name="my-test-group3" md-value="2" disabled>Disabled</md-radio>
-              <md-radio v-model="radio4" id="my-test12" name="my-test-group3" md-value="3">Another radio</md-radio>
+              <md-radio v-model="radio4" id="my-test10" name="my-test-group4" md-value="1">My beautiful radio</md-radio>
+              <md-radio v-model="radio4" id="my-test11" name="my-test-group4" md-value="2" disabled>Disabled</md-radio>
+              <md-radio v-model="radio4" id="my-test12" name="my-test-group4" md-value="3">Another radio</md-radio>
             </div>
           </div>
 
@@ -134,27 +134,27 @@
         <example-box card-title="Themes">
           <div slot="demo">
             <md-theme md-name="orange">
-              <md-radio v-model="radio5" id="my-test13" name="my-test-group4" md-value="1" class="md-primary">Orange radio</md-radio>
-              <md-radio v-model="radio5" id="my-test14" name="my-test-group4" md-value="2" class="md-primary">Another Orange radio</md-radio>
-              <md-radio v-model="radio5" id="my-test15" name="my-test-group4" md-value="3" class="md-primary">Another another Orange radio</md-radio>
+              <md-radio v-model="radio5" id="my-test13" name="my-test-group5" md-value="1" class="md-primary">Orange radio</md-radio>
+              <md-radio v-model="radio5" id="my-test14" name="my-test-group5" md-value="2" class="md-primary">Another Orange radio</md-radio>
+              <md-radio v-model="radio5" id="my-test15" name="my-test-group5" md-value="3" class="md-primary">Another another Orange radio</md-radio>
             </md-theme>
 
             <md-theme md-name="brown">
-              <md-radio v-model="radio6" id="my-test16" name="my-test-group4" md-value="1" class="md-primary">Brown radio</md-radio>
-              <md-radio v-model="radio6" id="my-test17" name="my-test-group4" md-value="2" class="md-primary">Another Brown radio</md-radio>
-              <md-radio v-model="radio6" id="my-test18" name="my-test-group4" md-value="3" class="md-primary">Another another Brown radio</md-radio>
+              <md-radio v-model="radio6" id="my-test16" name="my-test-group6" md-value="1" class="md-primary">Brown radio</md-radio>
+              <md-radio v-model="radio6" id="my-test17" name="my-test-group6" md-value="2" class="md-primary">Another Brown radio</md-radio>
+              <md-radio v-model="radio6" id="my-test18" name="my-test-group6" md-value="3" class="md-primary">Another another Brown radio</md-radio>
             </md-theme>
 
             <md-theme md-name="green">
-              <md-radio v-model="radio7" id="my-test19" name="my-test-group6" md-value="1" class="md-primary">Green radio</md-radio>
-              <md-radio v-model="radio7" id="my-test20" name="my-test-group6" md-value="2" class="md-primary">Another Green radio</md-radio>
-              <md-radio v-model="radio7" id="my-test21" name="my-test-group6" md-value="3" class="md-primary">Another another Green radio</md-radio>
+              <md-radio v-model="radio7" id="my-test19" name="my-test-group7" md-value="1" class="md-primary">Green radio</md-radio>
+              <md-radio v-model="radio7" id="my-test20" name="my-test-group7" md-value="2" class="md-primary">Another Green radio</md-radio>
+              <md-radio v-model="radio7" id="my-test21" name="my-test-group7" md-value="3" class="md-primary">Another another Green radio</md-radio>
             </md-theme>
 
             <md-theme md-name="teal">
-              <md-radio v-model="radio8" id="my-test22" name="my-test-group3" md-value="1" class="md-primary">Teal radio</md-radio>
-              <md-radio v-model="radio8" id="my-test23" name="my-test-group3" md-value="2" class="md-primary" disabled>Teal disabled radio</md-radio>
-              <md-radio v-model="radio8" id="my-test24" name="my-test-group3" md-value="3" class="md-primary">Another another Teal radio</md-radio>
+              <md-radio v-model="radio4" id="my-test22" name="my-test-group4" md-value="4" class="md-primary">Teal radio</md-radio>
+              <md-radio v-model="radio4" id="my-test23" name="my-test-group4" md-value="5" class="md-primary" disabled>Teal disabled radio</md-radio>
+              <md-radio v-model="radio4" id="my-test24" name="my-test-group4" md-value="6" class="md-primary">Another another Teal radio</md-radio>
             </md-theme>
           </div>
 
