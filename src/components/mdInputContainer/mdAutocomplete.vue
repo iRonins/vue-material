@@ -30,6 +30,7 @@
         @keydown.enter.prevent="contentFireClick()"
         @keydown.tab="closeMenu()"
         @keydown.esc="closeMenu()"
+        :tabindex="tabindex"
         md-menu-trigger/>
 
       <md-menu-content class="md-autocomplete-content">
@@ -53,6 +54,11 @@
 
   export default {
     mixins: [common, autocompleteCommon],
+    props: {
+      tabindex: {
+        default: 0
+      }
+    },
     data() {
       return {
         items: [],
