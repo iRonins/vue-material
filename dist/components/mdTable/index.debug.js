@@ -1383,11 +1383,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "md-table-head-text md-test"
   }, [(_vm.mdSortBy) ? _c('md-icon', {
     staticClass: "md-sortable-icon"
-  }, [_vm._v("arrow_upward")]) : _vm._e(), _vm._v(" "), _vm._t("default"), _vm._v(" "), (_vm.mdTooltip) ? _c('md-tooltip', [_vm._v(_vm._s(_vm.mdTooltip))]) : _vm._e()], 2), _vm._v(" "), _c('md-ink-ripple', {
+  }, [_vm._v("arrow_upward")]) : _vm._e(), _vm._v(" "), _vm._t("default"), _vm._v(" "), (_vm.mdTooltip) ? _c('md-tooltip', [_vm._v(_vm._s(_vm.mdTooltip))]) : _vm._e()], 2), _vm._v(" "), (_vm.mdSortBy) ? _c('md-ink-ripple', {
     attrs: {
       "md-disabled": !_vm.mdSortBy
     }
-  })], 1)])
+  }) : _vm._e()], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

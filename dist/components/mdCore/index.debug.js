@@ -1845,10 +1845,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var addEvent = function addEvent(target, type, handler) {
   if (type === 'start') {
-    target.addEventListener('mousedown', handler);
+    target.addEventListener('mousedown', handler, { passive: true });
     target.addEventListener('touchstart', handler, { passive: true });
   } else {
-    target.addEventListener('mouseup', handler);
+    target.addEventListener('mouseup', handler, { passive: true });
     target.addEventListener('touchend', handler, { passive: true });
   }
 };
