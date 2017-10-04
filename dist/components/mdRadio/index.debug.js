@@ -406,6 +406,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.value),
+      expression: "value"
+    }],
     attrs: {
       "type": "radio",
       "name": _vm.name,
@@ -414,11 +420,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "tabindex": _vm.tabindex
     },
     domProps: {
-      "value": _vm.value
+      "value": _vm.mdValue,
+      "checked": _vm._q(_vm.value, _vm.mdValue)
     },
     on: {
       "focus": _vm.onFocus,
-      "focusout": _vm.onBlur
+      "focusout": _vm.onBlur,
+      "__c": function($event) {
+        _vm.value = _vm.mdValue
+      }
     }
   }), _vm._v(" "), _c('md-ink-ripple', {
     attrs: {
