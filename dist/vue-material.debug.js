@@ -8216,6 +8216,7 @@ exports.default = {
 
       this.timeout = window.setTimeout((function () {
         if (_this.query.length < _this.minChars && !_this.itemsEmpty) {
+          _this.items = [];
           _this.closeMenu();
           return;
         }
@@ -8352,7 +8353,6 @@ exports.default = {
     },
     closeMenu: function closeMenu() {
       this.isItemSelected = 0;
-      this.items = [];
       this.$refs.menu.close();
     },
     updateValues: function updateValues(value) {
