@@ -108,6 +108,7 @@
 
         this.timeout = window.setTimeout(() => {
           if (this.query.length < this.minChars && !this.itemsEmpty ) {
+            this.items = [];
             this.closeMenu();
             return;
           }
@@ -247,7 +248,6 @@
       },
       closeMenu() {
         this.isItemSelected = 0;
-        this.items = [];
         this.$refs.menu.close();
       },
       updateValues(value) {
