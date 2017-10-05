@@ -107,7 +107,7 @@
         }
 
         this.timeout = window.setTimeout(() => {
-          if (this.query.length < this.minChars) {
+          if (this.query.length < this.minChars && !this.itemsEmpty ) {
             this.closeMenu();
             return;
           }
@@ -167,7 +167,9 @@
           this.parentContainer.isFocused = false;
         }
 
-        this.closeMenu();
+        if (this.query.length > 0) {
+          this.closeMenu();
+        }
       },
       onInput() {
         this.updateValues();
@@ -222,11 +224,6 @@
         }
       },
       update() {
-        if (!this.query && !this.list.length) {
-          this.closeMenu();
-          return this.reset();
-        }
-
         if (this.minChars && this.query.length < this.minChars) {
           return;
         }
@@ -250,6 +247,7 @@
       },
       closeMenu() {
         this.isItemSelected = 0;
+        this.items = [];
         this.$refs.menu.close();
       },
       updateValues(value) {
