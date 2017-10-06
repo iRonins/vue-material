@@ -277,7 +277,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdRadio/mdRadio.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdRadio/mdRadio.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdRadio.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -350,12 +350,12 @@ exports.default = {
   computed: {
     classes: function classes() {
       return {
-        'md-checked': this.isChecked,
+        'md-checked': this.checked,
         'md-disabled': this.disabled,
         'md-keyboard-focus': this.focused
       };
     },
-    isChecked: function isChecked() {
+    checked: function checked() {
       return typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString();
     }
   },
@@ -408,13 +408,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.toggleCheck($event)
       }
     }
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.value),
-      expression: "value"
-    }],
+  }, [_c('input', _vm._b({
     attrs: {
       "type": "radio",
       "name": _vm.name,
@@ -423,17 +417,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "tabindex": _vm.tabindex
     },
     domProps: {
-      "value": _vm.mdValue,
-      "checked": _vm._q(_vm.value, _vm.mdValue)
+      "value": _vm.mdValue
     },
     on: {
       "focus": _vm.onFocus,
-      "focusout": _vm.onBlur,
-      "__c": function($event) {
-        _vm.value = _vm.mdValue
-      }
+      "focusout": _vm.onBlur
     }
-  }), _vm._v(" "), _c('md-ink-ripple', {
+  }, 'input', {
+    checked: _vm.checked
+  }, false)), _vm._v(" "), _c('md-ink-ripple', {
     attrs: {
       "md-disabled": _vm.disabled
     }
