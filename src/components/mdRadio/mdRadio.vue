@@ -1,7 +1,7 @@
 <template>
   <div class="md-radio" :class="[themeClass, classes]">
     <div class="md-radio-container" @click.stop="toggleCheck">
-      <input type="radio" :name="name" :id="id" :disabled="disabled" v-model="value" :value="mdValue" @focus="onFocus" @focusout="onBlur" :tabindex="tabindex">
+      <input type="radio" :name="name" :id="id" :disabled="disabled" v-bind="{checked}" :value="mdValue" @focus="onFocus" @focusout="onBlur" :tabindex="tabindex">
       <md-ink-ripple :md-disabled="disabled" />
     </div>
 
@@ -40,12 +40,12 @@
     computed: {
       classes() {
         return {
-          'md-checked': this.isChecked,
+          'md-checked': this.checked,
           'md-disabled': this.disabled,
           'md-keyboard-focus': this.focused
         };
       },
-      isChecked() {
+      checked() {
         return typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString();
       }
     },
