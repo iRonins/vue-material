@@ -359,8 +359,6 @@ exports.default = {
 //
 //
 //
-//
-//
 
 module.exports = exports['default'];
 
@@ -384,11 +382,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('click', $event)
       }
     }
-  }, [_c('md-ink-ripple', {
-    attrs: {
-      "md-disabled": _vm.disabled
-    }
-  }), _vm._v(" "), _vm._t("default")], 2) : _c('button', {
+  }, [_vm._t("default")], 2) : _c('button', {
     staticClass: "md-button",
     class: [_vm.themeClass],
     attrs: {
@@ -400,11 +394,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('click', $event)
       }
     }
-  }, [_c('md-ink-ripple', {
-    attrs: {
-      "md-disabled": _vm.disabled
-    }
-  }), _vm._v(" "), _vm._t("default")], 2)
+  }, [_vm._t("default")], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
