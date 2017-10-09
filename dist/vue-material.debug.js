@@ -12864,7 +12864,6 @@ exports.default = {
 //
 //
 //
-//
 
 module.exports = exports['default'];
 
@@ -12901,11 +12900,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, 'input', {
     checked: _vm.checked
-  }, false)), _vm._v(" "), _c('md-ink-ripple', {
-    attrs: {
-      "md-disabled": _vm.disabled
-    }
-  })], 1), _vm._v(" "), (_vm.$slots.default) ? _c('label', {
+  }, false))]), _vm._v(" "), (_vm.$slots.default) ? _c('label', {
     staticClass: "md-radio-label",
     attrs: {
       "for": _vm.id || _vm.name
