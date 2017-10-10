@@ -45,7 +45,7 @@
       },
       mdFixed: {
         type: Boolean,
-        default: false
+        default: true
       },
       mdNoFocus: {
         type: Boolean,
