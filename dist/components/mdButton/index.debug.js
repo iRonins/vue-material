@@ -277,7 +277,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdButton/mdButton.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdButton/mdButton.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdButton.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -359,8 +359,6 @@ exports.default = {
 //
 //
 //
-//
-//
 
 module.exports = exports['default'];
 
@@ -384,11 +382,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('click', $event)
       }
     }
-  }, [_c('md-ink-ripple', {
-    attrs: {
-      "md-disabled": _vm.disabled
-    }
-  }), _vm._v(" "), _vm._t("default")], 2) : _c('button', {
+  }, [_vm._t("default")], 2) : _c('button', {
     staticClass: "md-button",
     class: [_vm.themeClass],
     attrs: {
@@ -400,11 +394,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('click', $event)
       }
     }
-  }, [_c('md-ink-ripple', {
-    attrs: {
-      "md-disabled": _vm.disabled
-    }
-  }), _vm._v(" "), _vm._t("default")], 2)
+  }, [_vm._t("default")], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

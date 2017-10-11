@@ -2,7 +2,6 @@
   <div class="md-radio" :class="[themeClass, classes]">
     <div class="md-radio-container" @click.stop="toggleCheck">
       <input type="radio" :name="name" :id="id" :disabled="disabled" v-bind="{checked}" :value="mdValue" @focus="onFocus" @focusout="onBlur" :tabindex="tabindex">
-      <md-ink-ripple :md-disabled="disabled" />
     </div>
 
     <label :for="id || name" class="md-radio-label" v-if="$slots.default" @click.prevent="toggleCheck">
