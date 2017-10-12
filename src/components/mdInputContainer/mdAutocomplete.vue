@@ -286,10 +286,12 @@
         let index = this.menuContent.__vue__.$children[0].$children[
           this.menuContent.__vue__.highlighted - 1].index;
 
-        this.isItemSelected = 1;
+        if (this.isItemSelected !== 2) {
+          this.isItemSelected = 1;
 
-        this.hit(this.items[index - 1]);
-        this.closeMenu();
+          this.hit(this.items[index - 1]);
+          this.closeMenu();
+        }
 
         return true;
       },
