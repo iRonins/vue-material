@@ -10996,7 +10996,7 @@ exports.default = {
     },
     mdFixed: {
       type: Boolean,
-      default: true
+      default: false
     },
     mdNoFocus: {
       type: Boolean,
