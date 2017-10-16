@@ -5,6 +5,7 @@
     <md-menu
       md-align-trigger
       md-auto-width
+      md-fixed
       md-no-focus
       md-manual-toggle
       :md-max-height="maxHeight"
