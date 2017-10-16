@@ -7,6 +7,7 @@
     @keydown.down.prevent="highlightItem('down')"
     @keydown.enter="fireClick"
     @keydown.space="fireClick"
+    @keydown="onKeyDown"
     tabindex="-1">
     <md-list>
       <slot></slot>
@@ -25,6 +26,11 @@
         itemListCount: 0
       };
     },
+    computed: {
+      highlightedIndex() {
+        return this.highlighted - 1;
+      }
+    },
     methods: {
       close() {
         this.highlighted = false;
@@ -39,7 +45,14 @@
 
         this.oldHighlight = this.highlighted;
 
+        if (this.highlighted === false && this.getSelectedIndex() > -1) {
+          this.highlighted = this.getSelectedIndex() + 1;
+        }
+
         if (direction === 'up') {
+          if (this.highlighted < 1) {
+            this.highlighted = 1;
+          }
           if (this.highlighted === 1) {
             this.highlighted = this.itemsAmount;
           } else {
@@ -55,25 +68,49 @@
           }
         }
 
-        this.$children[0].$children[this.highlighted - 1].$el.scrollIntoView({
-          block: 'end', behavior: 'smooth'
-        });
-
-        for (var i = 0; i < this.itemsAmount; i++) {
-          this.$children[0].$children[i].highlighted = false;
-        }
-
-        this.$children[0].$children[this.highlighted - 1].highlighted = true;
+        this.highlightChildren();
       },
       fireClick() {
         if (this.highlighted > 0) {
-          this.getOptions()[this.highlighted - 1].$el.click();
+          this.getOptions()[this.highlightedIndex].$children[0].close();
         }
       },
       getOptions() {
         return this.$children[0].$children.filter((child) => {
           return child.$el.classList.contains('md-option');
         });
+      },
+      onKeyDown($event) {
+        const { keyCode, key } = $event;
+
+        if (keyCode >= 65 && keyCode <= 90) {
+          $event.preventDefault();
+          this.itemsAmount = this.$children[0].$children.length;
+          const indexes = this.$children[0].$children.filter(({ $el }) => {
+            return $el.innerText.charAt(0).toLocaleLowerCase() === key;
+          }).map(({ index }) => index);
+          const highlightedIndex = indexes.findIndex((item) => item === this.highlighted);
+          const indexesLength = indexes.length;
+          const index = (highlightedIndex + 1) % indexesLength;
+
+          this.highlighted = indexesLength ? indexes[index] : false;
+          this.highlightChildren();
+        }
+      },
+      highlightChildren() {
+        for (var i = 0; i < this.itemsAmount; i++) {
+          this.$children[0].$children[i].$children[0].highlighted = false;
+          this.$children[0].$children[i].highlighted = false;
+        }
+        if (this.highlightedIndex >= 0) {
+          this.$el.scrollTop = this.$children[0].$children[this.highlightedIndex].$el.offsetTop;
+
+          this.$children[0].$children[this.highlightedIndex].$children[0].highlighted = true;
+          this.$children[0].$children[this.highlightedIndex].highlighted = true;
+        }
+      },
+      getSelectedIndex() {
+        return this.getOptions().findIndex(({ isSelected }) => isSelected);
       }
     },
     mounted() {

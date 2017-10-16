@@ -9,7 +9,7 @@
         <md-tooltip v-if="mdTooltip">{{ mdTooltip }}</md-tooltip>
       </div>
 
-      <md-ink-ripple :md-disabled="!mdSortBy" />
+      <md-ink-ripple :md-disabled="!mdSortBy" v-if="mdSortBy"/>
     </div>
   </th>
 </template>

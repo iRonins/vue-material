@@ -29,6 +29,8 @@
         @keydown.down.prevent="contentHighlightItem('down')"
         @keydown.enter.prevent="contentFireClick()"
         @keydown.tab="closeMenu()"
+        @keydown.esc="closeMenu()"
+        :tabindex="tabindex"
         md-menu-trigger/>
 
       <md-menu-content class="md-autocomplete-content">
@@ -52,6 +54,11 @@
 
   export default {
     mixins: [common, autocompleteCommon],
+    props: {
+      tabindex: {
+        default: 0
+      }
+    },
     data() {
       return {
         items: [],
@@ -100,6 +107,11 @@
         }
 
         this.timeout = window.setTimeout(() => {
+          if (this.query.length < this.minChars && !this.itemsEmpty ) {
+            this.items = [];
+            this.closeMenu();
+            return;
+          }
           if (!this.listIsEmpty) {
             this.renderFilteredList();
             return;
@@ -149,6 +161,15 @@
         if (this.query.length >= this.minChars) {
           this.renderFilteredList();
           this.openMenu();
+        }
+      },
+      onBlur() {
+        if (this.parentContainer) {
+          this.parentContainer.isFocused = false;
+        }
+
+        if (this.query.length > 0) {
+          this.closeMenu();
         }
       },
       onInput() {
@@ -204,10 +225,6 @@
         }
       },
       update() {
-        if (!this.query && !this.list.length) {
-          return this.reset();
-        }
-
         if (this.minChars && this.query.length < this.minChars) {
           return;
         }
@@ -230,6 +247,7 @@
         }
       },
       closeMenu() {
+        this.isItemSelected = 0;
         this.$refs.menu.close();
       },
       updateValues(value) {
@@ -268,10 +286,12 @@
         let index = this.menuContent.__vue__.$children[0].$children[
           this.menuContent.__vue__.highlighted - 1].index;
 
-        this.isItemSelected = 1;
+        if (this.isItemSelected !== 2) {
+          this.isItemSelected = 1;
 
-        this.hit(this.items[index - 1]);
-        this.closeMenu();
+          this.hit(this.items[index - 1]);
+          this.closeMenu();
+        }
 
         return true;
       },

@@ -1,6 +1,6 @@
 <template>
   <div class="md-checkbox" :class="[themeClass, classes]">
-    <div class="md-checkbox-container" @click.stop="toggleCheck" tabindex="0">
+    <div class="md-checkbox-container" @click.stop="toggleCheck" :tabindex="tabindex" @keydown.space.prevent="toggleCheck" @keyup.tab="onTabKeyUp" @focusout="onBlur">
       <input type="checkbox" :name="name" :id="id" :disabled="disabled" :value="mdValue" :checked="checked" tabindex="-1">
       <md-ink-ripple :md-disabled="disabled" />
     </div>
@@ -23,19 +23,24 @@
       value: [String, Boolean, Array],
       id: String,
       disabled: Boolean,
-      mdValue: [String]
+      mdValue: [String],
+      tabindex: {
+        default: 0
+      }
     },
     mixins: [theme],
     data() {
       return {
-        checked: this.value || false
+        checked: this.value || false,
+        focused: false
       };
     },
     computed: {
       classes() {
         return {
           'md-checked': this.isArray() ? this.value.indexOf(this.mdValue) >= 0 : this.checked,
-          'md-disabled': this.disabled
+          'md-disabled': this.disabled,
+          'md-keyboard-focus': this.focused
         };
       }
     },
@@ -48,7 +53,6 @@
     },
     methods: {
       toggleCheck($event) {
-
         if (!this.disabled) {
           if (this.isArray()) {
             let index = this.value.indexOf(this.mdValue);
@@ -68,7 +72,12 @@
           }
         }
       },
-
+      onTabKeyUp() {
+        this.focused = true;
+      },
+      onBlur() {
+        this.focused = false;
+      },
       isArray() {
         return Array.isArray(this.value);
       }
