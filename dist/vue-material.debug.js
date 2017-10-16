@@ -8470,7 +8470,6 @@ exports.default = {
 //
 //
 //
-//
 
 module.exports = exports['default'];
 
@@ -8628,7 +8627,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "md-align-trigger": "",
       "md-auto-width": "",
-      "md-fixed": "",
       "md-no-focus": "",
       "md-manual-toggle": "",
       "md-max-height": _vm.maxHeight,
