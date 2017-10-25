@@ -760,7 +760,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdStepper/mdStepper.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdStepper/mdStepper.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdStepper.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1149,7 +1149,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdStepper/mdStep.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdStepper/mdStep.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdStep.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1511,7 +1511,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdStepper/mdStepHeader.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdStepper/mdStepHeader.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdStepHeader.vue: functional components are not supported with templates, they should use render functions.")}
 

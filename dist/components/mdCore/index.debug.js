@@ -1425,7 +1425,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/core/components/mdTheme/mdTheme.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/core/components/mdTheme/mdTheme.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1780,7 +1780,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/core/components/mdInkRipple/mdInkRipple.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/core/components/mdInkRipple/mdInkRipple.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdInkRipple.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1845,10 +1845,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var addEvent = function addEvent(target, type, handler) {
   if (type === 'start') {
-    target.addEventListener('mousedown', handler);
+    target.addEventListener('mousedown', handler, { passive: true });
     target.addEventListener('touchstart', handler, { passive: true });
   } else {
-    target.addEventListener('mouseup', handler);
+    target.addEventListener('mouseup', handler, { passive: true });
     target.addEventListener('touchend', handler, { passive: true });
   }
 };

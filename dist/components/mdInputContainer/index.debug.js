@@ -533,7 +533,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdInputContainer/mdInputContainer.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdInputContainer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdInputContainer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -749,7 +749,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdInputContainer/mdInput.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdInput.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdInput.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -916,7 +916,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdInputContainer/mdAutocomplete.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdAutocomplete.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdAutocomplete.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -975,6 +975,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   mixins: [_common2.default, _autocompleteCommon2.default],
+  props: {
+    tabindex: {
+      default: 0
+    }
+  },
   data: function data() {
     return {
       items: [],
@@ -1026,6 +1031,11 @@ exports.default = {
       }
 
       this.timeout = window.setTimeout((function () {
+        if (_this.query.length < _this.minChars && !_this.itemsEmpty) {
+          _this.items = [];
+          _this.closeMenu();
+          return;
+        }
         if (!_this.listIsEmpty) {
           _this.renderFilteredList();
           return;
@@ -1072,6 +1082,15 @@ exports.default = {
       if (this.query.length >= this.minChars) {
         this.renderFilteredList();
         this.openMenu();
+      }
+    },
+    onBlur: function onBlur() {
+      if (this.parentContainer) {
+        this.parentContainer.isFocused = false;
+      }
+
+      if (this.query.length > 0) {
+        this.closeMenu();
       }
     },
     onInput: function onInput() {
@@ -1127,11 +1146,6 @@ exports.default = {
       }
     },
     update: function update() {
-      if (!this.query && !this.list.length) {
-        this.closeMenu();
-        return this.reset();
-      }
-
       if (this.minChars && this.query.length < this.minChars) {
         return;
       }
@@ -1190,10 +1204,12 @@ exports.default = {
 
       var index = this.menuContent.__vue__.$children[0].$children[this.menuContent.__vue__.highlighted - 1].index;
 
-      this.isItemSelected = 1;
+      if (this.isItemSelected !== 2) {
+        this.isItemSelected = 1;
 
-      this.hit(this.items[index - 1]);
-      this.closeMenu();
+        this.hit(this.items[index - 1]);
+        this.closeMenu();
+      }
 
       return true;
     },
@@ -1233,6 +1249,8 @@ exports.default = {
     }));
   }
 }; //
+//
+//
 //
 //
 //
@@ -1465,6 +1483,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "placeholder": _vm.placeholder,
       "maxlength": _vm.maxlength,
       "name": _vm.name,
+      "tabindex": _vm.tabindex,
       "md-menu-trigger": ""
     },
     domProps: {
@@ -1491,6 +1510,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.contentFireClick()
       }, function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "tab", 9)) { return null; }
+        _vm.closeMenu()
+      }, function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27)) { return null; }
         _vm.closeMenu()
       }]
     }
@@ -1537,7 +1559,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdInputContainer/mdTextarea.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdTextarea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTextarea.vue: functional components are not supported with templates, they should use render functions.")}
 

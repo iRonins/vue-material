@@ -277,7 +277,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdRadio/mdRadio.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdRadio/mdRadio.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdRadio.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -335,7 +335,10 @@ exports.default = {
       type: [String, Boolean, Number],
       required: true
     },
-    disabled: Boolean
+    disabled: Boolean,
+    tabindex: {
+      default: 0
+    }
   },
   data: function data() {
     return {
@@ -347,10 +350,13 @@ exports.default = {
   computed: {
     classes: function classes() {
       return {
-        'md-checked': typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString(),
+        'md-checked': this.checked,
         'md-disabled': this.disabled,
         'md-keyboard-focus': this.focused
       };
+    },
+    checked: function checked() {
+      return typeof this.value !== 'undefined' && this.value !== null && this.mdValue.toString() === this.value.toString();
     }
   },
   methods: {
@@ -368,7 +374,6 @@ exports.default = {
     }
   }
 }; //
-//
 //
 //
 //
@@ -402,25 +407,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.toggleCheck($event)
       }
     }
-  }, [_c('input', {
+  }, [_c('input', _vm._b({
     attrs: {
       "type": "radio",
       "name": _vm.name,
       "id": _vm.id,
-      "disabled": _vm.disabled
+      "disabled": _vm.disabled,
+      "tabindex": _vm.tabindex
     },
     domProps: {
-      "value": _vm.value
+      "value": _vm.mdValue
     },
     on: {
       "focus": _vm.onFocus,
       "focusout": _vm.onBlur
     }
-  }), _vm._v(" "), _c('md-ink-ripple', {
-    attrs: {
-      "md-disabled": _vm.disabled
-    }
-  })], 1), _vm._v(" "), (_vm.$slots.default) ? _c('label', {
+  }, 'input', {
+    checked: _vm.checked
+  }, false))]), _vm._v(" "), (_vm.$slots.default) ? _c('label', {
     staticClass: "md-radio-label",
     attrs: {
       "for": _vm.id || _vm.name

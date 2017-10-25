@@ -263,7 +263,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdMenu/mdMenu.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenu.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenu.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -314,17 +314,6 @@ var _getInViewPosition = __webpack_require__(291);
 var _getInViewPosition2 = _interopRequireDefault(_getInViewPosition);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 exports.default = {
   name: 'md-menu',
@@ -450,6 +439,8 @@ exports.default = {
       var width = void 0;
 
       var margin = 8;
+      var maxItems = 3;
+      var itemHeight = 48;
 
       if (this._destroyed) {
         return;
@@ -468,6 +459,19 @@ exports.default = {
 
       if (!this.mdFixed) {
         position = (0, _getInViewPosition2.default)(this.menuContent, position);
+      } else if (this.mdFixed) {
+        var maxDropdownHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin;
+
+        if ((0, _getInViewPosition2.default)(this.menuContent, position)) {
+          var dropdownHeight = maxItems * itemHeight;
+
+          if (dropdownHeight > maxDropdownHeight) {
+            this.menuContent.style.maxHeight = dropdownHeight + 'px';
+            position = this.getPosition('top', 'right');
+          }
+        } else {
+          this.menuContent.style.maxHeight = maxDropdownHeight + 'px';
+        }
       } else if (this.mdMaxHeight === 0) {
         this.menuContent.style.maxHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin + 'px';
       } else if (this.menuContent.children[0].children.length > 0) {
@@ -586,7 +590,17 @@ exports.default = {
 
     this._destroyed = true;
   }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 module.exports = exports['default'];
 
 /***/ }),
@@ -685,7 +699,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdMenu/mdMenuItem.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenuItem.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuItem.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -913,7 +927,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdMenu/mdMenuContent.vue"
+Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdMenu/mdMenuContent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuContent.vue: functional components are not supported with templates, they should use render functions.")}
 
