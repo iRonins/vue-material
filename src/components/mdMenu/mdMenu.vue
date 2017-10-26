@@ -11,7 +11,6 @@
 <script>
   import transitionEndEventName from '../../core/utils/transitionEndEventName';
   import getInViewPosition from '../../core/utils/getInViewPosition';
-  import isBelowOfViewport from '../../core/utils/getInViewPosition';
 
   export default {
     name: 'md-menu',
@@ -161,16 +160,12 @@
           position = getInViewPosition(this.menuContent, position);
         } else if (this.mdFixed) {
           let maxDropdownHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin;
+          let dropdownHeight = maxItems * itemHeight;
 
-          if (isBelowOfViewport(this.menuContent, position)) {
-            let dropdownHeight = maxItems * itemHeight;
+          this.menuContent.style.maxHeight = dropdownHeight + 'px';
 
-            if (dropdownHeight > maxDropdownHeight) {
-              this.menuContent.style.maxHeight = dropdownHeight + 'px';
-              position = this.getPosition('top', 'right');
-            }
-          } else {
-            this.menuContent.style.maxHeight = maxDropdownHeight + 'px';
+          if (maxDropdownHeight < dropdownHeight) {
+            position = this.getPosition('top', 'right');
           }
         } else if (this.mdMaxHeight === 0) {
           this.menuContent.style.maxHeight =
