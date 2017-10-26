@@ -10962,6 +10962,17 @@ var _getInViewPosition2 = _interopRequireDefault(_getInViewPosition);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 exports.default = {
   name: 'md-menu',
   props: {
@@ -11108,16 +11119,12 @@ exports.default = {
         position = (0, _getInViewPosition2.default)(this.menuContent, position);
       } else if (this.mdFixed) {
         var maxDropdownHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin;
+        var dropdownHeight = maxItems * itemHeight;
 
-        if ((0, _getInViewPosition2.default)(this.menuContent, position)) {
-          var dropdownHeight = maxItems * itemHeight;
+        this.menuContent.style.maxHeight = dropdownHeight + 'px';
 
-          if (dropdownHeight > maxDropdownHeight) {
-            this.menuContent.style.maxHeight = dropdownHeight + 'px';
-            position = this.getPosition('top', 'right');
-          }
-        } else {
-          this.menuContent.style.maxHeight = maxDropdownHeight + 'px';
+        if (maxDropdownHeight < dropdownHeight) {
+          position = this.getPosition('top', 'right');
         }
       } else if (this.mdMaxHeight === 0) {
         this.menuContent.style.maxHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin + 'px';
@@ -11237,17 +11244,7 @@ exports.default = {
 
     this._destroyed = true;
   }
-}; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
+};
 module.exports = exports['default'];
 
 /***/ }),
