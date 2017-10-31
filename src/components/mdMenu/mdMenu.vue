@@ -138,6 +138,8 @@
         let width;
 
         let margin = 8;
+        let maxItems = 3;
+        let itemHeight = 48;
 
         if (this._destroyed) {
           return;
@@ -156,6 +158,15 @@
 
         if (!this.mdFixed) {
           position = getInViewPosition(this.menuContent, position);
+        } else if (this.mdFixed) {
+          let maxDropdownHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin;
+          let dropdownHeight = maxItems * itemHeight;
+
+          this.menuContent.style.maxHeight = dropdownHeight + 'px';
+
+          if (maxDropdownHeight < dropdownHeight) {
+            position = this.getPosition('top', 'right');
+          }
         } else if (this.mdMaxHeight === 0) {
           this.menuContent.style.maxHeight =
               window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin + 'px';
