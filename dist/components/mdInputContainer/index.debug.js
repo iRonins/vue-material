@@ -533,7 +533,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdInputContainer.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdInputContainer/mdInputContainer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdInputContainer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -749,7 +749,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdInput.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdInputContainer/mdInput.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdInput.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -916,7 +916,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdAutocomplete.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdInputContainer/mdAutocomplete.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdAutocomplete.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1099,6 +1099,8 @@ exports.default = {
       this.$emit('input', this.$refs.input.value);
     },
     renderFilteredList: function renderFilteredList() {
+      var _this3 = this;
+
       if (this.filterList && this.query.length >= this.minChars) {
         this.items = this.filterList((0, _assign2.default)([], this.list), this.query);
       }
@@ -1108,7 +1110,9 @@ exports.default = {
       }
 
       if (!this.itemsEmpty && this.isItemSelected === 0) {
-        this.openMenu();
+        this.$nextTick((function () {
+          _this3.openMenu();
+        }));
       } else if (this.isItemSelected === 1) {
         this.isItemSelected = 0;
       }
@@ -1228,24 +1232,24 @@ exports.default = {
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.$nextTick((function () {
-      _this3.parentContainer = (0, _getClosestVueParent2.default)(_this3.$parent, 'md-input-container');
-      _this3.menuContent = document.body.querySelector('.md-autocomplete-content');
+      _this4.parentContainer = (0, _getClosestVueParent2.default)(_this4.$parent, 'md-input-container');
+      _this4.menuContent = document.body.querySelector('.md-autocomplete-content');
 
-      if (!_this3.listIsEmpty) {
-        _this3.items = (0, _assign2.default)([], _this3.list);
+      if (!_this4.listIsEmpty) {
+        _this4.items = (0, _assign2.default)([], _this4.list);
       }
 
-      _this3.verifyProps();
-      _this3.setSearchButton();
+      _this4.verifyProps();
+      _this4.setSearchButton();
 
-      _this3.setParentDisabled();
-      _this3.setParentRequired();
-      _this3.setParentPlaceholder();
-      _this3.handleMaxLength();
-      _this3.updateValues();
+      _this4.setParentDisabled();
+      _this4.setParentRequired();
+      _this4.setParentPlaceholder();
+      _this4.handleMaxLength();
+      _this4.updateValues();
     }));
   }
 }; //
@@ -1559,7 +1563,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/jaceksamol/apps/vue-material/src/components/mdInputContainer/mdTextarea.vue"
+Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/components/mdInputContainer/mdTextarea.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdTextarea.vue: functional components are not supported with templates, they should use render functions.")}
 
