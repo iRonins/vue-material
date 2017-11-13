@@ -187,7 +187,9 @@
         }
 
         if (!this.itemsEmpty && this.isItemSelected === 0) {
-          this.openMenu();
+          this.$nextTick(() => {
+            this.openMenu();
+          });
         } else if (this.isItemSelected === 1) {
           this.isItemSelected = 0;
         }
