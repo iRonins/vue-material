@@ -249,6 +249,16 @@
         }
       },
       closeMenu() {
+        let menuContentComponent = this.$refs.menu.$children.find(
+          function(element) {
+            return typeof (element.highlighted !== 'undefined');
+          }
+        );
+
+        if (menuContentComponent) {
+          menuContentComponent.highlighted = false;
+        }
+
         this.isItemSelected = 0;
         this.$refs.menu.close();
       },
