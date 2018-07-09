@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 447);
+/******/ 	return __webpack_require__(__webpack_require__.s = 448);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -176,27 +176,679 @@ module.exports = function normalizeComponent (
 /***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
-var dP = __webpack_require__(8);
-var createDesc = __webpack_require__(17);
-module.exports = __webpack_require__(3) ? function (object, key, value) {
+var dP         = __webpack_require__(8)
+  , createDesc = __webpack_require__(18);
+module.exports = __webpack_require__(3) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
-} : function (object, key, value) {
+} : function(object, key, value){
   object[key] = value;
   return object;
 };
 
+/***/ }),
+
+/***/ 100:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  name: 'md-theme',
+  props: {
+    mdTag: String,
+    mdName: {
+      type: String,
+      default: 'default'
+    }
+  },
+  render: function render(createElement) {
+    if (this.mdTag || this.$slots.default.length > 1) {
+      return createElement(this.mdTag || 'div', {
+        staticClass: this.$material.prefix + this.mdName
+      }, this.$slots.default);
+    }
+
+    return this.$slots.default[0];
+  },
+
+  watch: {
+    mdName: function mdName(value) {
+      this.$material.useTheme(value);
+    }
+  },
+  beforeMount: function beforeMount() {
+    var localTheme = this.mdName;
+
+    if (localTheme) {
+      this.$material.useTheme(localTheme);
+    }
+  }
+};
+module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 13:
+/***/ 101:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(6);
-module.exports = function (it) {
-  if (!isObject(it)) throw TypeError(it + ' is not an object!');
-  return it;
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var changeHtmlMetaColor = exports.changeHtmlMetaColor = undefined;
+var createNewStyleElement = exports.createNewStyleElement = undefined;
+
+if (process.env.VUE_ENV !== 'server') {
+  exports.changeHtmlMetaColor = changeHtmlMetaColor = function changeHtmlMetaColor(color, themeClass, previousClass) {
+    var elem = document.querySelector('meta[name="theme-color"]');
+
+    if (elem) {
+      elem.setAttribute('content', color);
+    } else {
+      elem = document.createElement('meta');
+      elem.setAttribute('name', 'theme-color');
+      elem.setAttribute('content', color);
+
+      document.head.appendChild(elem);
+    }
+
+    document.body.classList.remove(previousClass);
+    document.body.classList.add(themeClass);
+  };
+
+  exports.createNewStyleElement = createNewStyleElement = function createNewStyleElement(style, styleId) {
+    var head = document.head;
+    var styleElement = head.querySelector('#' + styleId);
+
+    if (!styleElement) {
+      var newTag = document.createElement('style');
+
+      newTag.type = 'text/css';
+      newTag.id = styleId;
+      newTag.textContent = style;
+
+      head.appendChild(newTag);
+    } else {
+      styleElement.textContent = style;
+    }
+  };
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(102)))
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
 };
 
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+
+/***/ 103:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = install;
+
+var _mdInkRipple = __webpack_require__(104);
+
+var _mdInkRipple2 = _interopRequireDefault(_mdInkRipple);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function install(Vue) {
+  Vue.component('md-ink-ripple', _mdInkRipple2.default);
+}
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(105)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(106),
+  /* template */
+  __webpack_require__(107),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/core/components/mdInkRipple/mdInkRipple.vue"
+if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] mdInkRipple.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-62c1a2f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-62c1a2f0", Component.options)
+  }
+  module.hot.dispose((function (data) {
+    disposed = true
+  }))
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 105:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 106:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+
+var addEvent = function addEvent(target, type, handler) {
+  if (type === 'start') {
+    target.addEventListener('mousedown', handler, { passive: true });
+    target.addEventListener('touchstart', handler, { passive: true });
+  } else {
+    target.addEventListener('mouseup', handler, { passive: true });
+    target.addEventListener('touchend', handler, { passive: true });
+  }
+};
+var removeEvent = function removeEvent(target, type, handler) {
+  if (type === 'start') {
+    target.removeEventListener('mousedown', handler);
+    target.removeEventListener('touchstart', handler);
+  } else {
+    target.removeEventListener('mouseup', handler);
+    target.removeEventListener('touchend', handler);
+  }
+};
+
+exports.default = {
+  name: 'md-ink-ripple',
+  props: {
+    mdDisabled: Boolean
+  },
+  data: function data() {
+    return {
+      mounted: false,
+      rippleElement: null,
+      parentElement: null,
+      parentDimensions: {
+        width: null,
+        height: null,
+        top: null,
+        left: null
+      },
+      awaitingComplete: false,
+      hasCompleted: false,
+      fadeOut: false,
+      active: false
+    };
+  },
+  computed: {
+    classes: function classes() {
+      return {
+        'md-fadeout': this.fadeOut,
+        'md-active': this.active
+      };
+    },
+    styles: function styles() {
+      return {
+        width: this.parentDimensions.width,
+        height: this.parentDimensions.height,
+        top: this.parentDimensions.top,
+        left: this.parentDimensions.left
+      };
+    },
+    disabled: function disabled() {
+      return this.mdDisabled || !this.$material.inkRipple;
+    }
+  },
+  watch: {
+    disabled: function disabled(_disabled) {
+      if (!_disabled) {
+        this.init();
+      } else {
+        this.destroy();
+      }
+    }
+  },
+  methods: {
+    checkAvailablePositions: function checkAvailablePositions(element) {
+      var availablePositions = ['relative', 'absolute', 'fixed'];
+
+      return availablePositions.indexOf(getComputedStyle(element).position) > -1;
+    },
+    getClosestPositionedParent: function getClosestPositionedParent(element) {
+      var parent = element && element.parentNode;
+
+      if (!parent || parent.tagName.toLowerCase() === 'body') {
+        return false;
+      }
+
+      if (this.checkAvailablePositions(element)) {
+        return element;
+      }
+
+      return this.getClosestPositionedParent(parent);
+    },
+    getParentSize: function getParentSize() {
+      var parent = this.parentElement;
+
+      return Math.round(Math.max(parent.offsetWidth, parent.offsetHeight)) + 'px';
+    },
+    getClickPosition: function getClickPosition(event) {
+      if (this.$refs.ripple) {
+        var rect = this.parentElement.getBoundingClientRect();
+        var top = event.pageY;
+        var left = event.pageX;
+
+        if (event.type === 'touchstart') {
+          top = event.changedTouches[0].pageY;
+          left = event.changedTouches[0].pageX;
+        }
+
+        return {
+          top: top - rect.top - this.$refs.ripple.offsetHeight / 2 - document.body.scrollTop + 'px',
+          left: left - rect.left - this.$refs.ripple.offsetWidth / 2 - document.body.scrollLeft + 'px'
+        };
+      }
+
+      return false;
+    },
+    setDimensions: function setDimensions() {
+      var size = this.getParentSize();
+
+      this.parentDimensions.width = size;
+      this.parentDimensions.height = size;
+    },
+    setPositions: function setPositions(event) {
+      var positions = this.getClickPosition(event);
+
+      if (positions) {
+        this.parentDimensions.top = positions.top;
+        this.parentDimensions.left = positions.left;
+      }
+    },
+    clearState: function clearState() {
+      this.active = false;
+      this.fadeOut = false;
+      this.hasCompleted = false;
+      this.setDimensions();
+      window.clearTimeout(this.awaitingComplete);
+      removeEvent(document.body, 'end', this.endRipple);
+    },
+    startRipple: function startRipple(event) {
+      var _this = this;
+
+      if (event.type === 'touchstart') {
+        this.previous.push('touch');
+      } else {
+        this.previous.push('mouse');
+      }
+
+      this.previous = this.previous.splice(this.previous.length - 2, this.previous.length);
+
+      if (this.previous.length >= 2 && this.previous[1] === 'touch' && this.previous[0] === 'mouse') {
+        return;
+      }
+
+      this.clearState();
+      this.awaitingComplete = window.setTimeout((function () {
+        _this.hasCompleted = true;
+      }), 400);
+
+      addEvent(document.body, 'end', this.endRipple);
+
+      this.$nextTick((function () {
+        _this.setPositions(event);
+        _this.active = true;
+      }));
+    },
+    endRipple: function endRipple() {
+      var _this2 = this;
+
+      if (this.hasCompleted) {
+        this.fadeOut = true;
+      } else {
+        this.awaitingComplete = window.setTimeout((function () {
+          _this2.fadeOut = true;
+        }), 200);
+      }
+
+      removeEvent(document.body, 'end', this.endRipple);
+    },
+    registerTriggerEvent: function registerTriggerEvent() {
+      addEvent(this.parentElement, 'start', this.startRipple);
+    },
+    unregisterTriggerEvent: function unregisterTriggerEvent() {
+      if (this.parentElement) {
+        removeEvent(this.parentElement, 'start', this.startRipple);
+      }
+    },
+    init: function init() {
+      this.rippleElement = this.$el;
+      this.parentElement = this.getClosestPositionedParent(this.$el.parentNode);
+      this.previous = ['mouse'];
+
+      if (this.parentElement) {
+        this.rippleElement.parentNode.removeChild(this.rippleElement);
+
+        if (this.parentElement.querySelectorAll('.md-ink-ripple').length > 0) {
+          this.$destroy();
+        } else {
+          this.parentElement.appendChild(this.rippleElement);
+          this.registerTriggerEvent();
+          this.setDimensions();
+        }
+      } else {
+        this.$destroy();
+      }
+    },
+    destroy: function destroy() {
+      if (this.rippleElement && this.rippleElement.parentNode) {
+        this.unregisterTriggerEvent();
+        this.rippleElement.parentNode.removeChild(this.rippleElement);
+      }
+    }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    window.setTimeout((function () {
+      if (!_this3.disabled) {
+        _this3.init();
+      } else {
+        _this3.destroy();
+      }
+
+      _this3.$nextTick((function () {
+        _this3.mounted = true;
+      }));
+    }), 100);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.destroy();
+  }
+};
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ 107:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.mounted || !_vm.disabled) ? _c('div', {
+    staticClass: "md-ink-ripple"
+  }, [_c('div', {
+    ref: "ripple",
+    staticClass: "md-ripple",
+    class: _vm.classes,
+    style: (_vm.styles)
+  })]) : _vm._e()
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-62c1a2f0", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, exports) {
+
+module.exports = ".THEME_NAME :not(input):not(textarea)::selection {\n  background: ACCENT-COLOR;\n  color: ACCENT-CONTRAST; }\n\n.THEME_NAME a:not(.md-button) {\n  color: ACCENT-COLOR; }\n  .THEME_NAME a:not(.md-button):hover {\n    color: ACCENT-COLOR-800; }\n\nbody.THEME_NAME {\n  background-color: BACKGROUND-COLOR;\n  color: BACKGROUND-CONTRAST-0.87; }\n\n/* Typography */\n.THEME_NAME .md-caption,\n.THEME_NAME .md-display-1,\n.THEME_NAME .md-display-2,\n.THEME_NAME .md-display-3,\n.THEME_NAME .md-display-4 {\n  color: BACKGROUND-CONTRAST-0.57; }\n\n.THEME_NAME code:not(.hljs) {\n  background-color: ACCENT-COLOR-A100-0.2;\n  color: ACCENT-COLOR-800; }\n"
+
+/***/ }),
+
+/***/ 109:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports) {
+
+module.exports = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(11);
+module.exports = function(it){
+  if(!isObject(it))throw TypeError(it + ' is not an object!');
+  return it;
+};
 
 /***/ }),
 
@@ -204,11 +856,10 @@ module.exports = function (it) {
 /***/ (function(module, exports) {
 
 // 7.2.1 RequireObjectCoercible(argument)
-module.exports = function (it) {
-  if (it == undefined) throw TypeError("Can't call method on  " + it);
+module.exports = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-
 
 /***/ }),
 
@@ -216,40 +867,39 @@ module.exports = function (it) {
 /***/ (function(module, exports) {
 
 // 7.1.4 ToInteger
-var ceil = Math.ceil;
-var floor = Math.floor;
-module.exports = function (it) {
+var ceil  = Math.ceil
+  , floor = Math.floor;
+module.exports = function(it){
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
-
 
 /***/ }),
 
 /***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(2);
-var core = __webpack_require__(4);
-var ctx = __webpack_require__(29);
-var hide = __webpack_require__(10);
-var PROTOTYPE = 'prototype';
+var global    = __webpack_require__(2)
+  , core      = __webpack_require__(4)
+  , ctx       = __webpack_require__(31)
+  , hide      = __webpack_require__(10)
+  , PROTOTYPE = 'prototype';
 
-var $export = function (type, name, source) {
-  var IS_FORCED = type & $export.F;
-  var IS_GLOBAL = type & $export.G;
-  var IS_STATIC = type & $export.S;
-  var IS_PROTO = type & $export.P;
-  var IS_BIND = type & $export.B;
-  var IS_WRAP = type & $export.W;
-  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
-  var expProto = exports[PROTOTYPE];
-  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
-  var key, own, out;
-  if (IS_GLOBAL) source = name;
-  for (key in source) {
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , IS_WRAP   = type & $export.W
+    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+    , expProto  = exports[PROTOTYPE]
+    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
     // contains in native
     own = !IS_FORCED && target && target[key] !== undefined;
-    if (own && key in exports) continue;
+    if(own && key in exports)continue;
     // export native or passed
     out = own ? target[key] : source[key];
     // prevent global pollution for namespaces
@@ -257,11 +907,11 @@ var $export = function (type, name, source) {
     // bind timers to global for call from export context
     : IS_BIND && own ? ctx(out, global)
     // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function (C) {
-      var F = function (a, b, c) {
-        if (this instanceof C) {
-          switch (arguments.length) {
-            case 0: return new C();
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(a, b, c){
+        if(this instanceof C){
+          switch(arguments.length){
+            case 0: return new C;
             case 1: return new C(a);
             case 2: return new C(a, b);
           } return new C(a, b, c);
@@ -272,10 +922,10 @@ var $export = function (type, name, source) {
     // make static versions for prototype methods
     })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
     // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if (IS_PROTO) {
+    if(IS_PROTO){
       (exports.virtual || (exports.virtual = {}))[key] = out;
       // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
+      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
     }
   }
 };
@@ -287,50 +937,46 @@ $export.P = 8;   // proto
 $export.B = 16;  // bind
 $export.W = 32;  // wrap
 $export.U = 64;  // safe
-$export.R = 128; // real proto method for `library`
+$export.R = 128; // real proto method for `library` 
 module.exports = $export;
-
 
 /***/ }),
 
 /***/ 17:
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function (bitmap, value) {
-  return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
-  };
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys       = __webpack_require__(29)
+  , enumBugKeys = __webpack_require__(23);
+
+module.exports = Object.keys || function keys(O){
+  return $keys(O, enumBugKeys);
 };
-
 
 /***/ }),
 
 /***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-var shared = __webpack_require__(22)('keys');
-var uid = __webpack_require__(20);
-module.exports = function (key) {
-  return shared[key] || (shared[key] = uid(key));
+module.exports = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
 };
-
 
 /***/ }),
 
 /***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(30);
-var enumBugKeys = __webpack_require__(23);
-
-module.exports = Object.keys || function keys(O) {
-  return $keys(O, enumBugKeys);
+var shared = __webpack_require__(22)('keys')
+  , uid    = __webpack_require__(20);
+module.exports = function(key){
+  return shared[key] || (shared[key] = uid(key));
 };
-
 
 /***/ }),
 
@@ -339,23 +985,19 @@ module.exports = Object.keys || function keys(O) {
 
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
-
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 
 /***/ }),
 
 /***/ 20:
 /***/ (function(module, exports) {
 
-var id = 0;
-var px = Math.random();
-module.exports = function (key) {
+var id = 0
+  , px = Math.random();
+module.exports = function(key){
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-
 
 /***/ }),
 
@@ -364,23 +1006,21 @@ module.exports = function (key) {
 
 // 7.1.13 ToObject(argument)
 var defined = __webpack_require__(14);
-module.exports = function (it) {
+module.exports = function(it){
   return Object(defined(it));
 };
-
 
 /***/ }),
 
 /***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__(2);
-var SHARED = '__core-js_shared__';
-var store = global[SHARED] || (global[SHARED] = {});
-module.exports = function (key) {
+var global = __webpack_require__(2)
+  , SHARED = '__core-js_shared__'
+  , store  = global[SHARED] || (global[SHARED] = {});
+module.exports = function(key){
   return store[key] || (store[key] = {});
 };
-
 
 /***/ }),
 
@@ -392,7 +1032,6 @@ module.exports = (
   'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 ).split(',');
 
-
 /***/ }),
 
 /***/ 24:
@@ -400,96 +1039,74 @@ module.exports = (
 
 var toString = {}.toString;
 
-module.exports = function (it) {
+module.exports = function(it){
   return toString.call(it).slice(8, -1);
 };
-
 
 /***/ }),
 
 /***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(24);
-// eslint-disable-next-line no-prototype-builtins
-module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
-  return cof(it) == 'String' ? it.split('') : Object(it);
+var isObject = __webpack_require__(11)
+  , document = __webpack_require__(2).document
+  // in old IE typeof document.createElement is 'object'
+  , is = isObject(document) && isObject(document.createElement);
+module.exports = function(it){
+  return is ? document.createElement(it) : {};
 };
-
 
 /***/ }),
 
 /***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(6);
-var document = __webpack_require__(2).document;
-// typeof document.createElement is 'object' in old IE
-var is = isObject(document) && isObject(document.createElement);
-module.exports = function (it) {
-  return is ? document.createElement(it) : {};
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = __webpack_require__(11);
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function(it, S){
+  if(!isObject(it))return it;
+  var fn, val;
+  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+  throw TypeError("Can't convert object to primitive value");
 };
-
 
 /***/ }),
 
 /***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(6);
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (it, S) {
-  if (!isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__(24);
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return cof(it) == 'String' ? it.split('') : Object(it);
 };
-
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.15 ToLength
-var toInteger = __webpack_require__(15);
-var min = Math.min;
-module.exports = function (it) {
-  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-};
-
 
 /***/ }),
 
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
-// optional / simple context binding
-var aFunction = __webpack_require__(35);
-module.exports = function (fn, that, length) {
-  aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
-};
+var has          = __webpack_require__(6)
+  , toIObject    = __webpack_require__(7)
+  , arrayIndexOf = __webpack_require__(33)(false)
+  , IE_PROTO     = __webpack_require__(19)('IE_PROTO');
 
+module.exports = function(object, names){
+  var O      = toIObject(object)
+    , i      = 0
+    , result = []
+    , key;
+  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while(names.length > i)if(has(O, key = names[i++])){
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
 
 /***/ }),
 
@@ -497,44 +1114,56 @@ module.exports = function (fn, that, length) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(5)((function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+module.exports = !__webpack_require__(5)((function(){
+  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 }));
-
 
 /***/ }),
 
 /***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(7);
-var toIObject = __webpack_require__(9);
-var arrayIndexOf = __webpack_require__(33)(false);
-var IE_PROTO = __webpack_require__(18)('IE_PROTO');
-
-module.exports = function (object, names) {
-  var O = toIObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
+// 7.1.15 ToLength
+var toInteger = __webpack_require__(15)
+  , min       = Math.min;
+module.exports = function(it){
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
-
 
 /***/ }),
 
 /***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = !__webpack_require__(3) && !__webpack_require__(5)((function () {
-  return Object.defineProperty(__webpack_require__(26)('div'), 'a', { get: function () { return 7; } }).a != 7;
-}));
+// optional / simple context binding
+var aFunction = __webpack_require__(35);
+module.exports = function(fn, that, length){
+  aFunction(fn);
+  if(that === undefined)return fn;
+  switch(length){
+    case 1: return function(a){
+      return fn.call(that, a);
+    };
+    case 2: return function(a, b){
+      return fn.call(that, a, b);
+    };
+    case 3: return function(a, b, c){
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function(/* ...args */){
+    return fn.apply(that, arguments);
+  };
+};
 
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = !__webpack_require__(3) && !__webpack_require__(5)((function(){
+  return Object.defineProperty(__webpack_require__(25)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+}));
 
 /***/ }),
 
@@ -543,181 +1172,171 @@ module.exports = !__webpack_require__(3) && !__webpack_require__(5)((function ()
 
 // false -> Array#indexOf
 // true  -> Array#includes
-var toIObject = __webpack_require__(9);
-var toLength = __webpack_require__(28);
-var toAbsoluteIndex = __webpack_require__(34);
-module.exports = function (IS_INCLUDES) {
-  return function ($this, el, fromIndex) {
-    var O = toIObject($this);
-    var length = toLength(O.length);
-    var index = toAbsoluteIndex(fromIndex, length);
-    var value;
+var toIObject = __webpack_require__(7)
+  , toLength  = __webpack_require__(30)
+  , toIndex   = __webpack_require__(34);
+module.exports = function(IS_INCLUDES){
+  return function($this, el, fromIndex){
+    var O      = toIObject($this)
+      , length = toLength(O.length)
+      , index  = toIndex(fromIndex, length)
+      , value;
     // Array#includes uses SameValueZero equality algorithm
-    // eslint-disable-next-line no-self-compare
-    if (IS_INCLUDES && el != el) while (length > index) {
+    if(IS_INCLUDES && el != el)while(length > index){
       value = O[index++];
-      // eslint-disable-next-line no-self-compare
-      if (value != value) return true;
-    // Array#indexOf ignores holes, Array#includes - not
-    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
-      if (O[index] === el) return IS_INCLUDES || index || 0;
+      if(value != value)return true;
+    // Array#toIndex ignores holes, Array#includes - not
+    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+      if(O[index] === el)return IS_INCLUDES || index || 0;
     } return !IS_INCLUDES && -1;
   };
 };
-
 
 /***/ }),
 
 /***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
-var toInteger = __webpack_require__(15);
-var max = Math.max;
-var min = Math.min;
-module.exports = function (index, length) {
+var toInteger = __webpack_require__(15)
+  , max       = Math.max
+  , min       = Math.min;
+module.exports = function(index, length){
   index = toInteger(index);
   return index < 0 ? max(index + length, 0) : min(index, length);
 };
-
 
 /***/ }),
 
 /***/ 35:
 /***/ (function(module, exports) {
 
-module.exports = function (it) {
-  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
+module.exports = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
   return it;
 };
-
-
-/***/ }),
-
-/***/ 38:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(45), __esModule: true };
 
 /***/ }),
 
 /***/ 4:
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.5.1' };
-if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+var core = module.exports = {version: '2.4.0'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(48), __esModule: true };
+
+/***/ }),
+
+/***/ 448:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(95);
 
 
 /***/ }),
 
-/***/ 447:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(80);
-
-
-/***/ }),
-
-/***/ 45:
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(46);
+__webpack_require__(49);
 module.exports = __webpack_require__(4).Object.keys;
 
-
 /***/ }),
 
-/***/ 46:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
-var toObject = __webpack_require__(21);
-var $keys = __webpack_require__(19);
+var toObject = __webpack_require__(21)
+  , $keys    = __webpack_require__(17);
 
-__webpack_require__(47)('keys', (function () {
-  return function keys(it) {
+__webpack_require__(50)('keys', (function(){
+  return function keys(it){
     return $keys(toObject(it));
   };
 }));
-
-
-/***/ }),
-
-/***/ 47:
-/***/ (function(module, exports, __webpack_require__) {
-
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(16);
-var core = __webpack_require__(4);
-var fails = __webpack_require__(5);
-module.exports = function (KEY, exec) {
-  var fn = (core.Object || {})[KEY] || Object[KEY];
-  var exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails((function () { fn(1); })), 'Object', exp);
-};
-
 
 /***/ }),
 
 /***/ 5:
 /***/ (function(module, exports) {
 
-module.exports = function (exec) {
+module.exports = function(exec){
   try {
     return !!exec();
-  } catch (e) {
+  } catch(e){
     return true;
   }
 };
 
+/***/ }),
+
+/***/ 50:
+/***/ (function(module, exports, __webpack_require__) {
+
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__(16)
+  , core    = __webpack_require__(4)
+  , fails   = __webpack_require__(5);
+module.exports = function(KEY, exec){
+  var fn  = (core.Object || {})[KEY] || Object[KEY]
+    , exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails((function(){ fn(1); })), 'Object', exp);
+};
 
 /***/ }),
 
 /***/ 6:
 /***/ (function(module, exports) {
 
-module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function(it, key){
+  return hasOwnProperty.call(it, key);
 };
-
 
 /***/ }),
 
 /***/ 7:
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(27)
+  , defined = __webpack_require__(14);
+module.exports = function(it){
+  return IObject(defined(it));
 };
-
 
 /***/ }),
 
 /***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(13);
-var IE8_DOM_DEFINE = __webpack_require__(31);
-var toPrimitive = __webpack_require__(27);
-var dP = Object.defineProperty;
+var anObject       = __webpack_require__(12)
+  , IE8_DOM_DEFINE = __webpack_require__(32)
+  , toPrimitive    = __webpack_require__(26)
+  , dP             = Object.defineProperty;
 
-exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProperty(O, P, Attributes){
   anObject(O);
   P = toPrimitive(P, true);
   anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
+  if(IE8_DOM_DEFINE)try {
     return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
+  } catch(e){ /* empty */ }
+  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+  if('value' in Attributes)O[P] = Attributes.value;
   return O;
 };
 
-
 /***/ }),
 
-/***/ 80:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -728,19 +1347,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = install;
 
-var _mdTheme = __webpack_require__(81);
+var _mdTheme = __webpack_require__(96);
 
 var _mdTheme2 = _interopRequireDefault(_mdTheme);
 
-var _mdInkRipple = __webpack_require__(88);
+var _mdInkRipple = __webpack_require__(103);
 
 var _mdInkRipple2 = _interopRequireDefault(_mdInkRipple);
 
-var _core = __webpack_require__(93);
+var _core = __webpack_require__(108);
 
 var _core2 = _interopRequireDefault(_core);
 
-__webpack_require__(94);
+__webpack_require__(109);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -764,7 +1383,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 81:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -774,25 +1393,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = __webpack_require__(38);
+var _keys = __webpack_require__(40);
 
 var _keys2 = _interopRequireDefault(_keys);
 
 exports.default = install;
 
-var _palette = __webpack_require__(82);
+var _palette = __webpack_require__(97);
 
 var _palette2 = _interopRequireDefault(_palette);
 
-var _rgba = __webpack_require__(83);
+var _rgba = __webpack_require__(98);
 
 var _rgba2 = _interopRequireDefault(_rgba);
 
-var _mdTheme = __webpack_require__(84);
+var _mdTheme = __webpack_require__(99);
 
 var _mdTheme2 = _interopRequireDefault(_mdTheme);
 
-var _dom = __webpack_require__(86);
+var _dom = __webpack_require__(101);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -986,7 +1605,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 82:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1358,7 +1977,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 83:
+/***/ 98:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1409,13 +2028,13 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 84:
+/***/ 99:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(85),
+  __webpack_require__(100),
   /* template */
   null,
   /* styles */
@@ -1425,7 +2044,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/core/components/mdTheme/mdTheme.vue"
+Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/core/components/mdTheme/mdTheme.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1446,668 +2065,6 @@ if (false) {(function () {
 
 module.exports = Component.exports
 
-
-/***/ }),
-
-/***/ 85:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  name: 'md-theme',
-  props: {
-    mdTag: String,
-    mdName: {
-      type: String,
-      default: 'default'
-    }
-  },
-  render: function render(createElement) {
-    if (this.mdTag || this.$slots.default.length > 1) {
-      return createElement(this.mdTag || 'div', {
-        staticClass: this.$material.prefix + this.mdName
-      }, this.$slots.default);
-    }
-
-    return this.$slots.default[0];
-  },
-
-  watch: {
-    mdName: function mdName(value) {
-      this.$material.useTheme(value);
-    }
-  },
-  beforeMount: function beforeMount() {
-    var localTheme = this.mdName;
-
-    if (localTheme) {
-      this.$material.useTheme(localTheme);
-    }
-  }
-};
-module.exports = exports['default'];
-
-/***/ }),
-
-/***/ 86:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var changeHtmlMetaColor = exports.changeHtmlMetaColor = undefined;
-var createNewStyleElement = exports.createNewStyleElement = undefined;
-
-if (process.env.VUE_ENV !== 'server') {
-  exports.changeHtmlMetaColor = changeHtmlMetaColor = function changeHtmlMetaColor(color, themeClass, previousClass) {
-    var elem = document.querySelector('meta[name="theme-color"]');
-
-    if (elem) {
-      elem.setAttribute('content', color);
-    } else {
-      elem = document.createElement('meta');
-      elem.setAttribute('name', 'theme-color');
-      elem.setAttribute('content', color);
-
-      document.head.appendChild(elem);
-    }
-
-    document.body.classList.remove(previousClass);
-    document.body.classList.add(themeClass);
-  };
-
-  exports.createNewStyleElement = createNewStyleElement = function createNewStyleElement(style, styleId) {
-    var head = document.head;
-    var styleElement = head.querySelector('#' + styleId);
-
-    if (!styleElement) {
-      var newTag = document.createElement('style');
-
-      newTag.type = 'text/css';
-      newTag.id = styleId;
-      newTag.textContent = style;
-
-      head.appendChild(newTag);
-    } else {
-      styleElement.textContent = style;
-    }
-  };
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(87)))
-
-/***/ }),
-
-/***/ 87:
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
-/***/ 88:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = install;
-
-var _mdInkRipple = __webpack_require__(89);
-
-var _mdInkRipple2 = _interopRequireDefault(_mdInkRipple);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function install(Vue) {
-  Vue.component('md-ink-ripple', _mdInkRipple2.default);
-}
-module.exports = exports['default'];
-
-/***/ }),
-
-/***/ 89:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(90)
-}
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(91),
-  /* template */
-  __webpack_require__(92),
-  /* styles */
-  injectStyle,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/Users/michal_przybysz/Projects/vue-material/src/core/components/mdInkRipple/mdInkRipple.vue"
-if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] mdInkRipple.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-62c1a2f0", Component.options)
-  } else {
-    hotAPI.reload("data-v-62c1a2f0", Component.options)
-  }
-  module.hot.dispose((function (data) {
-    disposed = true
-  }))
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(25);
-var defined = __webpack_require__(14);
-module.exports = function (it) {
-  return IObject(defined(it));
-};
-
-
-/***/ }),
-
-/***/ 90:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 91:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-
-var addEvent = function addEvent(target, type, handler) {
-  if (type === 'start') {
-    target.addEventListener('mousedown', handler, { passive: true });
-    target.addEventListener('touchstart', handler, { passive: true });
-  } else {
-    target.addEventListener('mouseup', handler, { passive: true });
-    target.addEventListener('touchend', handler, { passive: true });
-  }
-};
-var removeEvent = function removeEvent(target, type, handler) {
-  if (type === 'start') {
-    target.removeEventListener('mousedown', handler);
-    target.removeEventListener('touchstart', handler);
-  } else {
-    target.removeEventListener('mouseup', handler);
-    target.removeEventListener('touchend', handler);
-  }
-};
-
-exports.default = {
-  name: 'md-ink-ripple',
-  props: {
-    mdDisabled: Boolean
-  },
-  data: function data() {
-    return {
-      mounted: false,
-      rippleElement: null,
-      parentElement: null,
-      parentDimensions: {
-        width: null,
-        height: null,
-        top: null,
-        left: null
-      },
-      awaitingComplete: false,
-      hasCompleted: false,
-      fadeOut: false,
-      active: false
-    };
-  },
-  computed: {
-    classes: function classes() {
-      return {
-        'md-fadeout': this.fadeOut,
-        'md-active': this.active
-      };
-    },
-    styles: function styles() {
-      return {
-        width: this.parentDimensions.width,
-        height: this.parentDimensions.height,
-        top: this.parentDimensions.top,
-        left: this.parentDimensions.left
-      };
-    },
-    disabled: function disabled() {
-      return this.mdDisabled || !this.$material.inkRipple;
-    }
-  },
-  watch: {
-    disabled: function disabled(_disabled) {
-      if (!_disabled) {
-        this.init();
-      } else {
-        this.destroy();
-      }
-    }
-  },
-  methods: {
-    checkAvailablePositions: function checkAvailablePositions(element) {
-      var availablePositions = ['relative', 'absolute', 'fixed'];
-
-      return availablePositions.indexOf(getComputedStyle(element).position) > -1;
-    },
-    getClosestPositionedParent: function getClosestPositionedParent(element) {
-      var parent = element && element.parentNode;
-
-      if (!parent || parent.tagName.toLowerCase() === 'body') {
-        return false;
-      }
-
-      if (this.checkAvailablePositions(element)) {
-        return element;
-      }
-
-      return this.getClosestPositionedParent(parent);
-    },
-    getParentSize: function getParentSize() {
-      var parent = this.parentElement;
-
-      return Math.round(Math.max(parent.offsetWidth, parent.offsetHeight)) + 'px';
-    },
-    getClickPosition: function getClickPosition(event) {
-      if (this.$refs.ripple) {
-        var rect = this.parentElement.getBoundingClientRect();
-        var top = event.pageY;
-        var left = event.pageX;
-
-        if (event.type === 'touchstart') {
-          top = event.changedTouches[0].pageY;
-          left = event.changedTouches[0].pageX;
-        }
-
-        return {
-          top: top - rect.top - this.$refs.ripple.offsetHeight / 2 - document.body.scrollTop + 'px',
-          left: left - rect.left - this.$refs.ripple.offsetWidth / 2 - document.body.scrollLeft + 'px'
-        };
-      }
-
-      return false;
-    },
-    setDimensions: function setDimensions() {
-      var size = this.getParentSize();
-
-      this.parentDimensions.width = size;
-      this.parentDimensions.height = size;
-    },
-    setPositions: function setPositions(event) {
-      var positions = this.getClickPosition(event);
-
-      if (positions) {
-        this.parentDimensions.top = positions.top;
-        this.parentDimensions.left = positions.left;
-      }
-    },
-    clearState: function clearState() {
-      this.active = false;
-      this.fadeOut = false;
-      this.hasCompleted = false;
-      this.setDimensions();
-      window.clearTimeout(this.awaitingComplete);
-      removeEvent(document.body, 'end', this.endRipple);
-    },
-    startRipple: function startRipple(event) {
-      var _this = this;
-
-      if (event.type === 'touchstart') {
-        this.previous.push('touch');
-      } else {
-        this.previous.push('mouse');
-      }
-
-      this.previous = this.previous.splice(this.previous.length - 2, this.previous.length);
-
-      if (this.previous.length >= 2 && this.previous[1] === 'touch' && this.previous[0] === 'mouse') {
-        return;
-      }
-
-      this.clearState();
-      this.awaitingComplete = window.setTimeout((function () {
-        _this.hasCompleted = true;
-      }), 400);
-
-      addEvent(document.body, 'end', this.endRipple);
-
-      this.$nextTick((function () {
-        _this.setPositions(event);
-        _this.active = true;
-      }));
-    },
-    endRipple: function endRipple() {
-      var _this2 = this;
-
-      if (this.hasCompleted) {
-        this.fadeOut = true;
-      } else {
-        this.awaitingComplete = window.setTimeout((function () {
-          _this2.fadeOut = true;
-        }), 200);
-      }
-
-      removeEvent(document.body, 'end', this.endRipple);
-    },
-    registerTriggerEvent: function registerTriggerEvent() {
-      addEvent(this.parentElement, 'start', this.startRipple);
-    },
-    unregisterTriggerEvent: function unregisterTriggerEvent() {
-      if (this.parentElement) {
-        removeEvent(this.parentElement, 'start', this.startRipple);
-      }
-    },
-    init: function init() {
-      this.rippleElement = this.$el;
-      this.parentElement = this.getClosestPositionedParent(this.$el.parentNode);
-      this.previous = ['mouse'];
-
-      if (this.parentElement) {
-        this.rippleElement.parentNode.removeChild(this.rippleElement);
-
-        if (this.parentElement.querySelectorAll('.md-ink-ripple').length > 0) {
-          this.$destroy();
-        } else {
-          this.parentElement.appendChild(this.rippleElement);
-          this.registerTriggerEvent();
-          this.setDimensions();
-        }
-      } else {
-        this.$destroy();
-      }
-    },
-    destroy: function destroy() {
-      if (this.rippleElement && this.rippleElement.parentNode) {
-        this.unregisterTriggerEvent();
-        this.rippleElement.parentNode.removeChild(this.rippleElement);
-      }
-    }
-  },
-  mounted: function mounted() {
-    var _this3 = this;
-
-    window.setTimeout((function () {
-      if (!_this3.disabled) {
-        _this3.init();
-      } else {
-        _this3.destroy();
-      }
-
-      _this3.$nextTick((function () {
-        _this3.mounted = true;
-      }));
-    }), 100);
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.destroy();
-  }
-};
-module.exports = exports['default'];
-
-/***/ }),
-
-/***/ 92:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.mounted || !_vm.disabled) ? _c('div', {
-    staticClass: "md-ink-ripple"
-  }, [_c('div', {
-    ref: "ripple",
-    staticClass: "md-ripple",
-    class: _vm.classes,
-    style: (_vm.styles)
-  })]) : _vm._e()
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-62c1a2f0", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 93:
-/***/ (function(module, exports) {
-
-module.exports = ".THEME_NAME :not(input):not(textarea)::selection {\n  background: ACCENT-COLOR;\n  color: ACCENT-CONTRAST; }\n\n.THEME_NAME a:not(.md-button) {\n  color: ACCENT-COLOR; }\n  .THEME_NAME a:not(.md-button):hover {\n    color: ACCENT-COLOR-800; }\n\nbody.THEME_NAME {\n  background-color: BACKGROUND-COLOR;\n  color: BACKGROUND-CONTRAST-0.87; }\n\n/* Typography */\n.THEME_NAME .md-caption,\n.THEME_NAME .md-display-1,\n.THEME_NAME .md-display-2,\n.THEME_NAME .md-display-3,\n.THEME_NAME .md-display-4 {\n  color: BACKGROUND-CONTRAST-0.57; }\n\n.THEME_NAME code:not(.hljs) {\n  background-color: ACCENT-COLOR-A100-0.2;\n  color: ACCENT-COLOR-800; }\n"
-
-/***/ }),
-
-/***/ 94:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 
