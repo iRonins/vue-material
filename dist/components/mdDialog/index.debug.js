@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 457);
+/******/ 	return __webpack_require__(__webpack_require__.s = 456);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -227,7 +227,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 190:
+/***/ 189:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -238,35 +238,35 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = install;
 
-var _mdDialog = __webpack_require__(191);
+var _mdDialog = __webpack_require__(190);
 
 var _mdDialog2 = _interopRequireDefault(_mdDialog);
 
-var _mdDialogTitle = __webpack_require__(195);
+var _mdDialogTitle = __webpack_require__(194);
 
 var _mdDialogTitle2 = _interopRequireDefault(_mdDialogTitle);
 
-var _mdDialogContent = __webpack_require__(198);
+var _mdDialogContent = __webpack_require__(197);
 
 var _mdDialogContent2 = _interopRequireDefault(_mdDialogContent);
 
-var _mdDialogActions = __webpack_require__(201);
+var _mdDialogActions = __webpack_require__(200);
 
 var _mdDialogActions2 = _interopRequireDefault(_mdDialogActions);
 
-var _mdDialogAlert = __webpack_require__(204);
+var _mdDialogAlert = __webpack_require__(203);
 
 var _mdDialogAlert2 = _interopRequireDefault(_mdDialogAlert);
 
-var _mdDialogConfirm = __webpack_require__(207);
+var _mdDialogConfirm = __webpack_require__(206);
 
 var _mdDialogConfirm2 = _interopRequireDefault(_mdDialogConfirm);
 
-var _mdDialogPrompt = __webpack_require__(210);
+var _mdDialogPrompt = __webpack_require__(209);
 
 var _mdDialogPrompt2 = _interopRequireDefault(_mdDialogPrompt);
 
-var _mdDialog3 = __webpack_require__(213);
+var _mdDialog3 = __webpack_require__(212);
 
 var _mdDialog4 = _interopRequireDefault(_mdDialog3);
 
@@ -289,19 +289,19 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 191:
+/***/ 190:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(192)
+  __webpack_require__(191)
 }
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(193),
+  __webpack_require__(192),
   /* template */
-  __webpack_require__(194),
+  __webpack_require__(193),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -309,7 +309,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/components/mdDialog/mdDialog.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdDialog/mdDialog.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdDialog.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -334,14 +334,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 192:
+/***/ 191:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 193:
+/***/ 192:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -522,7 +522,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 194:
+/***/ 193:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -565,15 +565,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 195:
+/***/ 194:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(196),
+  __webpack_require__(195),
   /* template */
-  __webpack_require__(197),
+  __webpack_require__(196),
   /* styles */
   null,
   /* scopeId */
@@ -581,7 +581,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/components/mdDialog/mdDialogTitle.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdDialog/mdDialogTitle.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdDialogTitle.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -606,7 +606,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 196:
+/***/ 195:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -629,7 +629,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 197:
+/***/ 196:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -647,15 +647,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 198:
+/***/ 197:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(199),
+  __webpack_require__(198),
   /* template */
-  __webpack_require__(200),
+  __webpack_require__(199),
   /* styles */
   null,
   /* scopeId */
@@ -663,7 +663,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/components/mdDialog/mdDialogContent.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdDialog/mdDialogContent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdDialogContent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -688,7 +688,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 199:
+/***/ 198:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -711,7 +711,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 200:
+/***/ 199:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -729,15 +729,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 201:
+/***/ 200:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(202),
+  __webpack_require__(201),
   /* template */
-  __webpack_require__(203),
+  __webpack_require__(202),
   /* styles */
   null,
   /* scopeId */
@@ -745,7 +745,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/components/mdDialog/mdDialogActions.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdDialog/mdDialogActions.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdDialogActions.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -770,7 +770,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 202:
+/***/ 201:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -793,7 +793,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 203:
+/***/ 202:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -811,15 +811,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 204:
+/***/ 203:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(205),
+  __webpack_require__(204),
   /* template */
-  __webpack_require__(206),
+  __webpack_require__(205),
   /* styles */
   null,
   /* scopeId */
@@ -827,7 +827,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/components/mdDialog/presets/mdDialogAlert.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdDialog/presets/mdDialogAlert.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdDialogAlert.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -852,7 +852,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 205:
+/***/ 204:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -918,7 +918,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 206:
+/***/ 205:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -953,15 +953,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 207:
+/***/ 206:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(208),
+  __webpack_require__(207),
   /* template */
-  __webpack_require__(209),
+  __webpack_require__(208),
   /* styles */
   null,
   /* scopeId */
@@ -969,7 +969,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/components/mdDialog/presets/mdDialogConfirm.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdDialog/presets/mdDialogConfirm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdDialogConfirm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -994,7 +994,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 208:
+/***/ 207:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1065,7 +1065,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 209:
+/***/ 208:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1107,15 +1107,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 210:
+/***/ 209:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(211),
+  __webpack_require__(210),
   /* template */
-  __webpack_require__(212),
+  __webpack_require__(211),
   /* styles */
   null,
   /* scopeId */
@@ -1123,7 +1123,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/przemeksienkowski/Workspace/TMS/vue-material/src/components/mdDialog/presets/mdDialogPrompt.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdDialog/presets/mdDialogPrompt.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdDialogPrompt.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1148,7 +1148,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 211:
+/***/ 210:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1245,7 +1245,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 212:
+/***/ 211:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -1300,17 +1300,17 @@ if (false) {
 
 /***/ }),
 
-/***/ 213:
+/***/ 212:
 /***/ (function(module, exports) {
 
 module.exports = ".THEME_NAME.md-dialog-container .md-dialog {\n  background-color: BACKGROUND-COLOR;\n  color: BACKGROUND-CONTRAST; }\n"
 
 /***/ }),
 
-/***/ 457:
+/***/ 456:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(190);
+module.exports = __webpack_require__(189);
 
 
 /***/ }),
