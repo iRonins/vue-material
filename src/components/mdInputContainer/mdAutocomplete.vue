@@ -93,9 +93,15 @@
         this.$refs.input.value = value;
         this.setParentUpdateValue(value);
       },
-      value(value) {
-        this.query = value;
-        this.setParentUpdateValue(value);
+      value: {
+        immediate: true,
+        handler(value) {
+          if (!value) {
+            return;
+          }
+          this.query = value;
+          this.setParentUpdateValue(value);
+        }
       }
     },
     methods: {
