@@ -676,7 +676,7 @@
                 </md-autocomplete>
               </md-input-container>
 
-              <div class="color-box" :style="{ backgroundColor: selectedColor }"></div>
+              <div class="color-box" :style="{ backgroundColor: colorValue }"></div>
             </form>
           </div>
 
@@ -696,7 +696,7 @@
                   &lt;/md-autocomplete&gt;
                 &lt;/md-input-container&gt;
 
-                &lt;div class=&quot;color-box&quot; :style=&quot;{ backgroundColor: selectedColor }&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;color-box&quot; :style=&quot;{ backgroundColor: colorValue }&quot;&gt;&lt;/div&gt;
               &lt;/form&gt;
             </code-block>
 
@@ -704,7 +704,7 @@
               export default {
                 data() {
                   return {
-                    colorValue: '',
+                    colorValue: 'azure',
                     colorData: [
                       {name: "aqua", color: "#00ffff"},
                       {name: "aquamarine", color: "#7fffd4"},
@@ -770,7 +770,7 @@
                   },
 
                   colorCallback: function(item) {
-                    this.selectedColor = item.color;
+                    this.colorValue = item.color;
                   }
                 }
               };
@@ -794,7 +794,7 @@
     data() {
       return {
         autocompleteValue: '',
-        colorValue: '',
+        colorValue: 'azure',
         initialValue: 'My initial value',
         listAutocomplete: [
           {name: 'oi'},
@@ -868,7 +868,7 @@
       },
 
       colorCallback: function(item) {
-        this.selectedColor = item.color;
+        this.colorValue = item.color;
       },
 
       fetchAutocomplete(param) {
