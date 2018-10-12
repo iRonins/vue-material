@@ -174,24 +174,636 @@ module.exports = function normalizeComponent (
 /***/ }),
 
 /***/ 10:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-var dP = __webpack_require__(8);
-var createDesc = __webpack_require__(17);
-module.exports = __webpack_require__(3) ? function (object, key, value) {
-  return dP.f(object, key, createDesc(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
 
 
 /***/ }),
 
-/***/ 13:
+/***/ 100:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(6);
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var changeHtmlMetaColor = exports.changeHtmlMetaColor = undefined;
+var createNewStyleElement = exports.createNewStyleElement = undefined;
+
+if (process.env.VUE_ENV !== 'server') {
+  exports.changeHtmlMetaColor = changeHtmlMetaColor = function changeHtmlMetaColor(color, themeClass, previousClass) {
+    var elem = document.querySelector('meta[name="theme-color"]');
+
+    if (elem) {
+      elem.setAttribute('content', color);
+    } else {
+      elem = document.createElement('meta');
+      elem.setAttribute('name', 'theme-color');
+      elem.setAttribute('content', color);
+
+      document.head.appendChild(elem);
+    }
+
+    document.body.classList.remove(previousClass);
+    document.body.classList.add(themeClass);
+  };
+
+  exports.createNewStyleElement = createNewStyleElement = function createNewStyleElement(style, styleId) {
+    var head = document.head;
+    var styleElement = head.querySelector('#' + styleId);
+
+    if (!styleElement) {
+      var newTag = document.createElement('style');
+
+      newTag.type = 'text/css';
+      newTag.id = styleId;
+      newTag.textContent = style;
+
+      head.appendChild(newTag);
+    } else {
+      styleElement.textContent = style;
+    }
+  };
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(101)))
+
+/***/ }),
+
+/***/ 101:
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = install;
+
+var _mdInkRipple = __webpack_require__(103);
+
+var _mdInkRipple2 = _interopRequireDefault(_mdInkRipple);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function install(Vue) {
+  Vue.component('md-ink-ripple', _mdInkRipple2.default);
+}
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ 103:
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(104)
+}
+var Component = __webpack_require__(0)(
+  /* script */
+  __webpack_require__(105),
+  /* template */
+  __webpack_require__(106),
+  /* styles */
+  injectStyle,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/core/components/mdInkRipple/mdInkRipple.vue"
+if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] mdInkRipple.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-62c1a2f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-62c1a2f0", Component.options)
+  }
+  module.hot.dispose((function (data) {
+    disposed = true
+  }))
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 104:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 105:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+
+var addEvent = function addEvent(target, type, handler) {
+  if (type === 'start') {
+    target.addEventListener('mousedown', handler, { passive: true });
+    target.addEventListener('touchstart', handler, { passive: true });
+  } else {
+    target.addEventListener('mouseup', handler, { passive: true });
+    target.addEventListener('touchend', handler, { passive: true });
+  }
+};
+var removeEvent = function removeEvent(target, type, handler) {
+  if (type === 'start') {
+    target.removeEventListener('mousedown', handler);
+    target.removeEventListener('touchstart', handler);
+  } else {
+    target.removeEventListener('mouseup', handler);
+    target.removeEventListener('touchend', handler);
+  }
+};
+
+exports.default = {
+  name: 'md-ink-ripple',
+  props: {
+    mdDisabled: Boolean
+  },
+  data: function data() {
+    return {
+      mounted: false,
+      rippleElement: null,
+      parentElement: null,
+      parentDimensions: {
+        width: null,
+        height: null,
+        top: null,
+        left: null
+      },
+      awaitingComplete: false,
+      hasCompleted: false,
+      fadeOut: false,
+      active: false
+    };
+  },
+  computed: {
+    classes: function classes() {
+      return {
+        'md-fadeout': this.fadeOut,
+        'md-active': this.active
+      };
+    },
+    styles: function styles() {
+      return {
+        width: this.parentDimensions.width,
+        height: this.parentDimensions.height,
+        top: this.parentDimensions.top,
+        left: this.parentDimensions.left
+      };
+    },
+    disabled: function disabled() {
+      return this.mdDisabled || !this.$material.inkRipple;
+    }
+  },
+  watch: {
+    disabled: function disabled(_disabled) {
+      if (!_disabled) {
+        this.init();
+      } else {
+        this.destroy();
+      }
+    }
+  },
+  methods: {
+    checkAvailablePositions: function checkAvailablePositions(element) {
+      var availablePositions = ['relative', 'absolute', 'fixed'];
+
+      return availablePositions.indexOf(getComputedStyle(element).position) > -1;
+    },
+    getClosestPositionedParent: function getClosestPositionedParent(element) {
+      var parent = element && element.parentNode;
+
+      if (!parent || parent.tagName.toLowerCase() === 'body') {
+        return false;
+      }
+
+      if (this.checkAvailablePositions(element)) {
+        return element;
+      }
+
+      return this.getClosestPositionedParent(parent);
+    },
+    getParentSize: function getParentSize() {
+      var parent = this.parentElement;
+
+      return Math.round(Math.max(parent.offsetWidth, parent.offsetHeight)) + 'px';
+    },
+    getClickPosition: function getClickPosition(event) {
+      if (this.$refs.ripple) {
+        var rect = this.parentElement.getBoundingClientRect();
+        var top = event.pageY;
+        var left = event.pageX;
+
+        if (event.type === 'touchstart') {
+          top = event.changedTouches[0].pageY;
+          left = event.changedTouches[0].pageX;
+        }
+
+        return {
+          top: top - rect.top - this.$refs.ripple.offsetHeight / 2 - document.body.scrollTop + 'px',
+          left: left - rect.left - this.$refs.ripple.offsetWidth / 2 - document.body.scrollLeft + 'px'
+        };
+      }
+
+      return false;
+    },
+    setDimensions: function setDimensions() {
+      var size = this.getParentSize();
+
+      this.parentDimensions.width = size;
+      this.parentDimensions.height = size;
+    },
+    setPositions: function setPositions(event) {
+      var positions = this.getClickPosition(event);
+
+      if (positions) {
+        this.parentDimensions.top = positions.top;
+        this.parentDimensions.left = positions.left;
+      }
+    },
+    clearState: function clearState() {
+      this.active = false;
+      this.fadeOut = false;
+      this.hasCompleted = false;
+      this.setDimensions();
+      window.clearTimeout(this.awaitingComplete);
+      removeEvent(document.body, 'end', this.endRipple);
+    },
+    startRipple: function startRipple(event) {
+      var _this = this;
+
+      if (event.type === 'touchstart') {
+        this.previous.push('touch');
+      } else {
+        this.previous.push('mouse');
+      }
+
+      this.previous = this.previous.splice(this.previous.length - 2, this.previous.length);
+
+      if (this.previous.length >= 2 && this.previous[1] === 'touch' && this.previous[0] === 'mouse') {
+        return;
+      }
+
+      this.clearState();
+      this.awaitingComplete = window.setTimeout((function () {
+        _this.hasCompleted = true;
+      }), 400);
+
+      addEvent(document.body, 'end', this.endRipple);
+
+      this.$nextTick((function () {
+        _this.setPositions(event);
+        _this.active = true;
+      }));
+    },
+    endRipple: function endRipple() {
+      var _this2 = this;
+
+      if (this.hasCompleted) {
+        this.fadeOut = true;
+      } else {
+        this.awaitingComplete = window.setTimeout((function () {
+          _this2.fadeOut = true;
+        }), 200);
+      }
+
+      removeEvent(document.body, 'end', this.endRipple);
+    },
+    registerTriggerEvent: function registerTriggerEvent() {
+      addEvent(this.parentElement, 'start', this.startRipple);
+    },
+    unregisterTriggerEvent: function unregisterTriggerEvent() {
+      if (this.parentElement) {
+        removeEvent(this.parentElement, 'start', this.startRipple);
+      }
+    },
+    init: function init() {
+      this.rippleElement = this.$el;
+      this.parentElement = this.getClosestPositionedParent(this.$el.parentNode);
+      this.previous = ['mouse'];
+
+      if (this.parentElement) {
+        this.rippleElement.parentNode.removeChild(this.rippleElement);
+
+        if (this.parentElement.querySelectorAll('.md-ink-ripple').length > 0) {
+          this.$destroy();
+        } else {
+          this.parentElement.appendChild(this.rippleElement);
+          this.registerTriggerEvent();
+          this.setDimensions();
+        }
+      } else {
+        this.$destroy();
+      }
+    },
+    destroy: function destroy() {
+      if (this.rippleElement && this.rippleElement.parentNode) {
+        this.unregisterTriggerEvent();
+        this.rippleElement.parentNode.removeChild(this.rippleElement);
+      }
+    }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    window.setTimeout((function () {
+      if (!_this3.disabled) {
+        _this3.init();
+      } else {
+        _this3.destroy();
+      }
+
+      _this3.$nextTick((function () {
+        _this3.mounted = true;
+      }));
+    }), 100);
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.destroy();
+  }
+};
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ 106:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.mounted || !_vm.disabled) ? _c('div', {
+    staticClass: "md-ink-ripple"
+  }, [_c('div', {
+    ref: "ripple",
+    staticClass: "md-ripple",
+    class: _vm.classes,
+    style: (_vm.styles)
+  })]) : _vm._e()
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-62c1a2f0", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 107:
+/***/ (function(module, exports) {
+
+module.exports = ".THEME_NAME :not(input):not(textarea)::selection {\n  background: ACCENT-COLOR;\n  color: ACCENT-CONTRAST; }\n\n.THEME_NAME a:not(.md-button) {\n  color: ACCENT-COLOR; }\n  .THEME_NAME a:not(.md-button):hover {\n    color: ACCENT-COLOR-800; }\n\nbody.THEME_NAME {\n  background-color: BACKGROUND-COLOR;\n  color: BACKGROUND-CONTRAST-0.87; }\n\n/* Typography */\n.THEME_NAME .md-caption,\n.THEME_NAME .md-display-1,\n.THEME_NAME .md-display-2,\n.THEME_NAME .md-display-3,\n.THEME_NAME .md-display-4 {\n  color: BACKGROUND-CONTRAST-0.57; }\n\n.THEME_NAME code:not(.hljs) {\n  background-color: ACCENT-COLOR-A100-0.2;\n  color: ACCENT-COLOR-800; }\n"
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = __webpack_require__(27);
+var defined = __webpack_require__(14);
+module.exports = function (it) {
+  return IObject(defined(it));
+};
+
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(10);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -230,8 +842,8 @@ module.exports = function (it) {
 
 var global = __webpack_require__(2);
 var core = __webpack_require__(4);
-var ctx = __webpack_require__(29);
-var hide = __webpack_require__(10);
+var ctx = __webpack_require__(31);
+var hide = __webpack_require__(9);
 var PROTOTYPE = 'prototype';
 
 var $export = function (type, name, source) {
@@ -311,10 +923,12 @@ module.exports = function (bitmap, value) {
 /***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(22)('keys');
-var uid = __webpack_require__(20);
-module.exports = function (key) {
-  return shared[key] || (shared[key] = uid(key));
+// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+var $keys = __webpack_require__(29);
+var enumBugKeys = __webpack_require__(23);
+
+module.exports = Object.keys || function keys(O) {
+  return $keys(O, enumBugKeys);
 };
 
 
@@ -323,12 +937,10 @@ module.exports = function (key) {
 /***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(30);
-var enumBugKeys = __webpack_require__(23);
-
-module.exports = Object.keys || function keys(O) {
-  return $keys(O, enumBugKeys);
+var shared = __webpack_require__(22)('keys');
+var uid = __webpack_require__(20);
+module.exports = function (key) {
+  return shared[key] || (shared[key] = uid(key));
 };
 
 
@@ -410,20 +1022,7 @@ module.exports = function (it) {
 /***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(24);
-// eslint-disable-next-line no-prototype-builtins
-module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
-  return cof(it) == 'String' ? it.split('') : Object(it);
-};
-
-
-/***/ }),
-
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(6);
+var isObject = __webpack_require__(10);
 var document = __webpack_require__(2).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
@@ -434,11 +1033,11 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ 27:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(6);
+var isObject = __webpack_require__(10);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -453,7 +1052,55 @@ module.exports = function (it, S) {
 
 /***/ }),
 
-/***/ 28:
+/***/ 27:
+/***/ (function(module, exports, __webpack_require__) {
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = __webpack_require__(24);
+// eslint-disable-next-line no-prototype-builtins
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__(6);
+var toIObject = __webpack_require__(11);
+var arrayIndexOf = __webpack_require__(33)(false);
+var IE_PROTO = __webpack_require__(19)('IE_PROTO');
+
+module.exports = function (object, names) {
+  var O = toIObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~arrayIndexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports, __webpack_require__) {
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !__webpack_require__(5)((function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+}));
+
+
+/***/ }),
+
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.15 ToLength
@@ -466,7 +1113,7 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
@@ -493,46 +1140,11 @@ module.exports = function (fn, that, length) {
 
 /***/ }),
 
-/***/ 3:
-/***/ (function(module, exports, __webpack_require__) {
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__(5)((function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-}));
-
-
-/***/ }),
-
-/***/ 30:
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__(7);
-var toIObject = __webpack_require__(9);
-var arrayIndexOf = __webpack_require__(33)(false);
-var IE_PROTO = __webpack_require__(18)('IE_PROTO');
-
-module.exports = function (object, names) {
-  var O = toIObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
-};
-
-
-/***/ }),
-
-/***/ 31:
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(3) && !__webpack_require__(5)((function () {
-  return Object.defineProperty(__webpack_require__(26)('div'), 'a', { get: function () { return 7; } }).a != 7;
+  return Object.defineProperty(__webpack_require__(25)('div'), 'a', { get: function () { return 7; } }).a != 7;
 }));
 
 
@@ -543,8 +1155,8 @@ module.exports = !__webpack_require__(3) && !__webpack_require__(5)((function ()
 
 // false -> Array#indexOf
 // true  -> Array#includes
-var toIObject = __webpack_require__(9);
-var toLength = __webpack_require__(28);
+var toIObject = __webpack_require__(11);
+var toLength = __webpack_require__(30);
 var toAbsoluteIndex = __webpack_require__(34);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
@@ -593,13 +1205,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ 38:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(45), __esModule: true };
-
-/***/ }),
-
 /***/ 4:
 /***/ (function(module, exports) {
 
@@ -609,52 +1214,42 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
+/***/ 40:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(48), __esModule: true };
+
+/***/ }),
+
 /***/ 447:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(80);
+module.exports = __webpack_require__(94);
 
 
 /***/ }),
 
-/***/ 45:
+/***/ 48:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(46);
+__webpack_require__(49);
 module.exports = __webpack_require__(4).Object.keys;
 
 
 /***/ }),
 
-/***/ 46:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
 var toObject = __webpack_require__(21);
-var $keys = __webpack_require__(19);
+var $keys = __webpack_require__(18);
 
-__webpack_require__(47)('keys', (function () {
+__webpack_require__(50)('keys', (function () {
   return function keys(it) {
     return $keys(toObject(it));
   };
 }));
-
-
-/***/ }),
-
-/***/ 47:
-/***/ (function(module, exports, __webpack_require__) {
-
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(16);
-var core = __webpack_require__(4);
-var fails = __webpack_require__(5);
-module.exports = function (KEY, exec) {
-  var fn = (core.Object || {})[KEY] || Object[KEY];
-  var exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails((function () { fn(1); })), 'Object', exp);
-};
 
 
 /***/ }),
@@ -673,17 +1268,24 @@ module.exports = function (exec) {
 
 /***/ }),
 
-/***/ 6:
-/***/ (function(module, exports) {
+/***/ 50:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
+// most Object methods by ES6 should accept primitives
+var $export = __webpack_require__(16);
+var core = __webpack_require__(4);
+var fails = __webpack_require__(5);
+module.exports = function (KEY, exec) {
+  var fn = (core.Object || {})[KEY] || Object[KEY];
+  var exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails((function () { fn(1); })), 'Object', exp);
 };
 
 
 /***/ }),
 
-/***/ 7:
+/***/ 6:
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -694,12 +1296,12 @@ module.exports = function (it, key) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(13);
-var IE8_DOM_DEFINE = __webpack_require__(31);
-var toPrimitive = __webpack_require__(27);
+var anObject = __webpack_require__(12);
+var IE8_DOM_DEFINE = __webpack_require__(32);
+var toPrimitive = __webpack_require__(26);
 var dP = Object.defineProperty;
 
 exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProperty(O, P, Attributes) {
@@ -717,7 +1319,22 @@ exports.f = __webpack_require__(3) ? Object.defineProperty : function defineProp
 
 /***/ }),
 
-/***/ 80:
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+var dP = __webpack_require__(7);
+var createDesc = __webpack_require__(17);
+module.exports = __webpack_require__(3) ? function (object, key, value) {
+  return dP.f(object, key, createDesc(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+
+/***/ 94:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -728,19 +1345,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = install;
 
-var _mdTheme = __webpack_require__(81);
+var _mdTheme = __webpack_require__(95);
 
 var _mdTheme2 = _interopRequireDefault(_mdTheme);
 
-var _mdInkRipple = __webpack_require__(88);
+var _mdInkRipple = __webpack_require__(102);
 
 var _mdInkRipple2 = _interopRequireDefault(_mdInkRipple);
 
-var _core = __webpack_require__(93);
+var _core = __webpack_require__(107);
 
 var _core2 = _interopRequireDefault(_core);
 
-__webpack_require__(94);
+__webpack_require__(108);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -764,7 +1381,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 81:
+/***/ 95:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -774,25 +1391,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keys = __webpack_require__(38);
+var _keys = __webpack_require__(40);
 
 var _keys2 = _interopRequireDefault(_keys);
 
 exports.default = install;
 
-var _palette = __webpack_require__(82);
+var _palette = __webpack_require__(96);
 
 var _palette2 = _interopRequireDefault(_palette);
 
-var _rgba = __webpack_require__(83);
+var _rgba = __webpack_require__(97);
 
 var _rgba2 = _interopRequireDefault(_rgba);
 
-var _mdTheme = __webpack_require__(84);
+var _mdTheme = __webpack_require__(98);
 
 var _mdTheme2 = _interopRequireDefault(_mdTheme);
 
-var _dom = __webpack_require__(86);
+var _dom = __webpack_require__(100);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -986,7 +1603,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 82:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1358,7 +1975,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 83:
+/***/ 97:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1409,13 +2026,13 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 84:
+/***/ 98:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(85),
+  __webpack_require__(99),
   /* template */
   null,
   /* styles */
@@ -1425,7 +2042,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/core/components/mdTheme/mdTheme.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/core/components/mdTheme/mdTheme.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -1449,7 +2066,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 85:
+/***/ 99:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1491,623 +2108,6 @@ exports.default = {
   }
 };
 module.exports = exports['default'];
-
-/***/ }),
-
-/***/ 86:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var changeHtmlMetaColor = exports.changeHtmlMetaColor = undefined;
-var createNewStyleElement = exports.createNewStyleElement = undefined;
-
-if (process.env.VUE_ENV !== 'server') {
-  exports.changeHtmlMetaColor = changeHtmlMetaColor = function changeHtmlMetaColor(color, themeClass, previousClass) {
-    var elem = document.querySelector('meta[name="theme-color"]');
-
-    if (elem) {
-      elem.setAttribute('content', color);
-    } else {
-      elem = document.createElement('meta');
-      elem.setAttribute('name', 'theme-color');
-      elem.setAttribute('content', color);
-
-      document.head.appendChild(elem);
-    }
-
-    document.body.classList.remove(previousClass);
-    document.body.classList.add(themeClass);
-  };
-
-  exports.createNewStyleElement = createNewStyleElement = function createNewStyleElement(style, styleId) {
-    var head = document.head;
-    var styleElement = head.querySelector('#' + styleId);
-
-    if (!styleElement) {
-      var newTag = document.createElement('style');
-
-      newTag.type = 'text/css';
-      newTag.id = styleId;
-      newTag.textContent = style;
-
-      head.appendChild(newTag);
-    } else {
-      styleElement.textContent = style;
-    }
-  };
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(87)))
-
-/***/ }),
-
-/***/ 87:
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
-/***/ 88:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = install;
-
-var _mdInkRipple = __webpack_require__(89);
-
-var _mdInkRipple2 = _interopRequireDefault(_mdInkRipple);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function install(Vue) {
-  Vue.component('md-ink-ripple', _mdInkRipple2.default);
-}
-module.exports = exports['default'];
-
-/***/ }),
-
-/***/ 89:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(90)
-}
-var Component = __webpack_require__(0)(
-  /* script */
-  __webpack_require__(91),
-  /* template */
-  __webpack_require__(92),
-  /* styles */
-  injectStyle,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/core/components/mdInkRipple/mdInkRipple.vue"
-if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] mdInkRipple.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-62c1a2f0", Component.options)
-  } else {
-    hotAPI.reload("data-v-62c1a2f0", Component.options)
-  }
-  module.hot.dispose((function (data) {
-    disposed = true
-  }))
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(25);
-var defined = __webpack_require__(14);
-module.exports = function (it) {
-  return IObject(defined(it));
-};
-
-
-/***/ }),
-
-/***/ 90:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 91:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//
-//
-//
-//
-//
-//
-//
-//
-
-var addEvent = function addEvent(target, type, handler) {
-  if (type === 'start') {
-    target.addEventListener('mousedown', handler);
-    target.addEventListener('touchstart', handler, { passive: true });
-  } else {
-    target.addEventListener('mouseup', handler);
-    target.addEventListener('touchend', handler, { passive: true });
-  }
-};
-var removeEvent = function removeEvent(target, type, handler) {
-  if (type === 'start') {
-    target.removeEventListener('mousedown', handler);
-    target.removeEventListener('touchstart', handler);
-  } else {
-    target.removeEventListener('mouseup', handler);
-    target.removeEventListener('touchend', handler);
-  }
-};
-
-exports.default = {
-  name: 'md-ink-ripple',
-  props: {
-    mdDisabled: Boolean
-  },
-  data: function data() {
-    return {
-      mounted: false,
-      rippleElement: null,
-      parentElement: null,
-      parentDimensions: {
-        width: null,
-        height: null,
-        top: null,
-        left: null
-      },
-      awaitingComplete: false,
-      hasCompleted: false,
-      fadeOut: false,
-      active: false
-    };
-  },
-  computed: {
-    classes: function classes() {
-      return {
-        'md-fadeout': this.fadeOut,
-        'md-active': this.active
-      };
-    },
-    styles: function styles() {
-      return {
-        width: this.parentDimensions.width,
-        height: this.parentDimensions.height,
-        top: this.parentDimensions.top,
-        left: this.parentDimensions.left
-      };
-    },
-    disabled: function disabled() {
-      return this.mdDisabled || !this.$material.inkRipple;
-    }
-  },
-  watch: {
-    disabled: function disabled(_disabled) {
-      if (!_disabled) {
-        this.init();
-      } else {
-        this.destroy();
-      }
-    }
-  },
-  methods: {
-    checkAvailablePositions: function checkAvailablePositions(element) {
-      var availablePositions = ['relative', 'absolute', 'fixed'];
-
-      return availablePositions.indexOf(getComputedStyle(element).position) > -1;
-    },
-    getClosestPositionedParent: function getClosestPositionedParent(element) {
-      var parent = element && element.parentNode;
-
-      if (!parent || parent.tagName.toLowerCase() === 'body') {
-        return false;
-      }
-
-      if (this.checkAvailablePositions(element)) {
-        return element;
-      }
-
-      return this.getClosestPositionedParent(parent);
-    },
-    getParentSize: function getParentSize() {
-      var parent = this.parentElement;
-
-      return Math.round(Math.max(parent.offsetWidth, parent.offsetHeight)) + 'px';
-    },
-    getClickPosition: function getClickPosition(event) {
-      if (this.$refs.ripple) {
-        var rect = this.parentElement.getBoundingClientRect();
-        var top = event.pageY;
-        var left = event.pageX;
-
-        if (event.type === 'touchstart') {
-          top = event.changedTouches[0].pageY;
-          left = event.changedTouches[0].pageX;
-        }
-
-        return {
-          top: top - rect.top - this.$refs.ripple.offsetHeight / 2 - document.body.scrollTop + 'px',
-          left: left - rect.left - this.$refs.ripple.offsetWidth / 2 - document.body.scrollLeft + 'px'
-        };
-      }
-
-      return false;
-    },
-    setDimensions: function setDimensions() {
-      var size = this.getParentSize();
-
-      this.parentDimensions.width = size;
-      this.parentDimensions.height = size;
-    },
-    setPositions: function setPositions(event) {
-      var positions = this.getClickPosition(event);
-
-      if (positions) {
-        this.parentDimensions.top = positions.top;
-        this.parentDimensions.left = positions.left;
-      }
-    },
-    clearState: function clearState() {
-      this.active = false;
-      this.fadeOut = false;
-      this.hasCompleted = false;
-      this.setDimensions();
-      window.clearTimeout(this.awaitingComplete);
-      removeEvent(document.body, 'end', this.endRipple);
-    },
-    startRipple: function startRipple(event) {
-      var _this = this;
-
-      if (event.type === 'touchstart') {
-        this.previous.push('touch');
-      } else {
-        this.previous.push('mouse');
-      }
-
-      this.previous = this.previous.splice(this.previous.length - 2, this.previous.length);
-
-      if (this.previous.length >= 2 && this.previous[1] === 'touch' && this.previous[0] === 'mouse') {
-        return;
-      }
-
-      this.clearState();
-      this.awaitingComplete = window.setTimeout((function () {
-        _this.hasCompleted = true;
-      }), 400);
-
-      addEvent(document.body, 'end', this.endRipple);
-
-      this.$nextTick((function () {
-        _this.setPositions(event);
-        _this.active = true;
-      }));
-    },
-    endRipple: function endRipple() {
-      var _this2 = this;
-
-      if (this.hasCompleted) {
-        this.fadeOut = true;
-      } else {
-        this.awaitingComplete = window.setTimeout((function () {
-          _this2.fadeOut = true;
-        }), 200);
-      }
-
-      removeEvent(document.body, 'end', this.endRipple);
-    },
-    registerTriggerEvent: function registerTriggerEvent() {
-      addEvent(this.parentElement, 'start', this.startRipple);
-    },
-    unregisterTriggerEvent: function unregisterTriggerEvent() {
-      if (this.parentElement) {
-        removeEvent(this.parentElement, 'start', this.startRipple);
-      }
-    },
-    init: function init() {
-      this.rippleElement = this.$el;
-      this.parentElement = this.getClosestPositionedParent(this.$el.parentNode);
-      this.previous = ['mouse'];
-
-      if (this.parentElement) {
-        this.rippleElement.parentNode.removeChild(this.rippleElement);
-
-        if (this.parentElement.querySelectorAll('.md-ink-ripple').length > 0) {
-          this.$destroy();
-        } else {
-          this.parentElement.appendChild(this.rippleElement);
-          this.registerTriggerEvent();
-          this.setDimensions();
-        }
-      } else {
-        this.$destroy();
-      }
-    },
-    destroy: function destroy() {
-      if (this.rippleElement && this.rippleElement.parentNode) {
-        this.unregisterTriggerEvent();
-        this.rippleElement.parentNode.removeChild(this.rippleElement);
-      }
-    }
-  },
-  mounted: function mounted() {
-    var _this3 = this;
-
-    window.setTimeout((function () {
-      if (!_this3.disabled) {
-        _this3.init();
-      } else {
-        _this3.destroy();
-      }
-
-      _this3.$nextTick((function () {
-        _this3.mounted = true;
-      }));
-    }), 100);
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.destroy();
-  }
-};
-module.exports = exports['default'];
-
-/***/ }),
-
-/***/ 92:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.mounted || !_vm.disabled) ? _c('div', {
-    staticClass: "md-ink-ripple"
-  }, [_c('div', {
-    ref: "ripple",
-    staticClass: "md-ripple",
-    class: _vm.classes,
-    style: (_vm.styles)
-  })]) : _vm._e()
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-62c1a2f0", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 93:
-/***/ (function(module, exports) {
-
-module.exports = ".THEME_NAME :not(input):not(textarea)::selection {\n  background: ACCENT-COLOR;\n  color: ACCENT-CONTRAST; }\n\n.THEME_NAME a:not(.md-button) {\n  color: ACCENT-COLOR; }\n  .THEME_NAME a:not(.md-button):hover {\n    color: ACCENT-COLOR-800; }\n\nbody.THEME_NAME {\n  background-color: BACKGROUND-COLOR;\n  color: BACKGROUND-CONTRAST-0.87; }\n\n/* Typography */\n.THEME_NAME .md-caption,\n.THEME_NAME .md-display-1,\n.THEME_NAME .md-display-2,\n.THEME_NAME .md-display-3,\n.THEME_NAME .md-display-4 {\n  color: BACKGROUND-CONTRAST-0.57; }\n\n.THEME_NAME code:not(.hljs) {\n  background-color: ACCENT-COLOR-A100-0.2;\n  color: ACCENT-COLOR-800; }\n"
-
-/***/ }),
-
-/***/ 94:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 

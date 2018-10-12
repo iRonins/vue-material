@@ -173,7 +173,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 11:
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -263,7 +263,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdMenu/mdMenu.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdMenu/mdMenu.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenu.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -305,7 +305,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _transitionEndEventName = __webpack_require__(42);
+var _transitionEndEventName = __webpack_require__(46);
 
 var _transitionEndEventName2 = _interopRequireDefault(_transitionEndEventName);
 
@@ -450,11 +450,14 @@ exports.default = {
       var width = void 0;
 
       var margin = 8;
+      var maxItems = 3;
+      var itemHeight = 48;
 
       if (this._destroyed) {
         return;
       }
 
+      this.menuContent.style.visibility = 'hidden';
       if (!this.mdDirection) {
         position = this.getPosition('bottom', 'right');
       } else {
@@ -468,6 +471,15 @@ exports.default = {
 
       if (!this.mdFixed) {
         position = (0, _getInViewPosition2.default)(this.menuContent, position);
+      } else if (this.mdFixed) {
+        var maxDropdownHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin;
+        var dropdownHeight = maxItems * itemHeight;
+
+        this.menuContent.style.maxHeight = dropdownHeight + 'px';
+
+        if (maxDropdownHeight < dropdownHeight) {
+          position = this.getPosition('top', 'right');
+        }
       } else if (this.mdMaxHeight === 0) {
         this.menuContent.style.maxHeight = window.innerHeight - this.menuTrigger.getBoundingClientRect().bottom - margin + 'px';
       } else if (this.menuContent.children[0].children.length > 0) {
@@ -478,11 +490,14 @@ exports.default = {
 
       this.menuContent.style.top = position.top + window.pageYOffset + 'px';
       this.menuContent.style.left = position.left + window.pageXOffset + 'px';
+      this.menuContent.style.visibility = 'initial';
     },
     recalculateOnResize: function recalculateOnResize() {
       window.requestAnimationFrame(this.calculateMenuContentPos);
     },
     open: function open() {
+      var _this = this;
+
       if (document.body.contains(this.menuContent)) {
         document.body.removeChild(this.menuContent);
       }
@@ -490,47 +505,48 @@ exports.default = {
       document.body.appendChild(this.menuContent);
       document.body.appendChild(this.backdropElement);
       window.addEventListener('resize', this.recalculateOnResize);
+      setTimeout((function () {
+        _this.calculateMenuContentPos();
 
-      this.calculateMenuContentPos();
+        getComputedStyle(_this.menuContent).top;
+        _this.menuContent.classList.add('md-active');
 
-      getComputedStyle(this.menuContent).top;
-      this.menuContent.classList.add('md-active');
+        if (!_this.mdNoFocus) {
+          _this.menuContent.focus();
+        }
 
-      if (!this.mdNoFocus) {
-        this.menuContent.focus();
-      }
-
-      this.active = true;
-      this.$emit('open');
+        _this.active = true;
+        _this.$emit('open');
+      }), 0);
     },
     close: function close() {
-      var _this = this;
+      var _this2 = this;
 
       var close = function close(event) {
-        if (_this.menuContent && event.target === _this.menuContent) {
-          var activeRipple = _this.menuContent.querySelector('.md-ripple.md-active');
+        if (_this2.menuContent && event.target === _this2.menuContent) {
+          var activeRipple = _this2.menuContent.querySelector('.md-ripple.md-active');
 
-          _this.menuContent.removeEventListener(_transitionEndEventName2.default, close);
+          _this2.menuContent.removeEventListener(_transitionEndEventName2.default, close);
 
-          if (!_this.mdNoFocus) {
-            _this.menuTrigger.focus();
+          if (!_this2.mdNoFocus) {
+            _this2.menuTrigger.focus();
           }
 
-          _this.active = false;
+          _this2.active = false;
 
           if (activeRipple) {
             activeRipple.classList.remove('md-active');
           }
 
-          if (document.body.contains(_this.menuContent)) {
-            document.body.removeChild(_this.menuContent);
+          if (document.body.contains(_this2.menuContent)) {
+            document.body.removeChild(_this2.menuContent);
           }
 
-          if (document.body.contains(_this.backdropElement)) {
-            document.body.removeChild(_this.backdropElement);
+          if (document.body.contains(_this2.backdropElement)) {
+            document.body.removeChild(_this2.backdropElement);
           }
 
-          window.removeEventListener('resize', _this.recalculateOnResize);
+          window.removeEventListener('resize', _this2.recalculateOnResize);
         }
       };
 
@@ -554,21 +570,21 @@ exports.default = {
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.$nextTick((function () {
-      _this2.menuTrigger = _this2.$el.querySelector('[md-menu-trigger]');
-      _this2.menuContent = _this2.$el.querySelector('.md-menu-content');
-      _this2.backdropElement = _this2.$refs.backdrop.$el;
-      _this2.validateMenu();
-      _this2.handleAlignTriggerClass(_this2.mdAlignTrigger);
-      _this2.addNewSizeMenuContentClass(_this2.mdSize);
-      _this2.addNewDirectionMenuContentClass(_this2.mdDirection);
-      _this2.$el.removeChild(_this2.$refs.backdrop.$el);
-      _this2.menuContent.parentNode.removeChild(_this2.menuContent);
+      _this3.menuTrigger = _this3.$el.querySelector('[md-menu-trigger]');
+      _this3.menuContent = _this3.$el.querySelector('.md-menu-content');
+      _this3.backdropElement = _this3.$refs.backdrop.$el;
+      _this3.validateMenu();
+      _this3.handleAlignTriggerClass(_this3.mdAlignTrigger);
+      _this3.addNewSizeMenuContentClass(_this3.mdSize);
+      _this3.addNewDirectionMenuContentClass(_this3.mdDirection);
+      _this3.$el.removeChild(_this3.$refs.backdrop.$el);
+      _this3.menuContent.parentNode.removeChild(_this3.menuContent);
 
-      if (!_this2.mdManualToggle) {
-        _this2.menuTrigger.addEventListener('click', _this2.toggle);
+      if (!_this3.mdManualToggle) {
+        _this3.menuTrigger.addEventListener('click', _this3.toggle);
       }
     }));
   },
@@ -685,7 +701,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdMenu/mdMenuItem.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdMenu/mdMenuItem.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuItem.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -720,7 +736,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getClosestVueParent = __webpack_require__(11);
+var _getClosestVueParent = __webpack_require__(13);
 
 var _getClosestVueParent2 = _interopRequireDefault(_getClosestVueParent);
 
@@ -913,7 +929,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdMenu/mdMenuContent.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdMenu/mdMenuContent.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdMenuContent.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1142,7 +1158,7 @@ module.exports = ".md-menu-content .THEME_NAME.md-list {\n  background-color: BA
 
 /***/ }),
 
-/***/ 42:
+/***/ 46:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

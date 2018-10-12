@@ -173,7 +173,7 @@ module.exports = function normalizeComponent (
 
 /***/ }),
 
-/***/ 216:
+/***/ 230:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -184,11 +184,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = install;
 
-var _mdImage = __webpack_require__(217);
+var _mdImage = __webpack_require__(231);
 
 var _mdImage2 = _interopRequireDefault(_mdImage);
 
-var _mdImage3 = __webpack_require__(221);
+var _mdImage3 = __webpack_require__(235);
 
 var _mdImage4 = _interopRequireDefault(_mdImage3);
 
@@ -203,19 +203,19 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 217:
+/***/ 231:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(218)
+  __webpack_require__(232)
 }
 var Component = __webpack_require__(0)(
   /* script */
-  __webpack_require__(219),
+  __webpack_require__(233),
   /* template */
-  __webpack_require__(220),
+  __webpack_require__(234),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -223,7 +223,7 @@ var Component = __webpack_require__(0)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "/Users/lucas/Developer/forks/vue-material/src/components/mdImage/mdImage.vue"
+Component.options.__file = "/Users/lucas/Code/ironin/vue-material/src/components/mdImage/mdImage.vue"
 if (Component.esModule && Object.keys(Component.esModule).some((function (key) {return key !== "default" && key.substr(0, 2) !== "__"}))) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] mdImage.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -248,14 +248,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 218:
+/***/ 232:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 219:
+/***/ 233:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -265,7 +265,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getImageLightness = __webpack_require__(65);
+var _getImageLightness = __webpack_require__(70);
 
 var _getImageLightness2 = _interopRequireDefault(_getImageLightness);
 
@@ -342,7 +342,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 220:
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -364,7 +364,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 221:
+/***/ 235:
 /***/ (function(module, exports) {
 
 module.exports = ""
@@ -374,12 +374,12 @@ module.exports = ""
 /***/ 460:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(216);
+module.exports = __webpack_require__(230);
 
 
 /***/ }),
 
-/***/ 65:
+/***/ 70:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
