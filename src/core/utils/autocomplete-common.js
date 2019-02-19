@@ -52,6 +52,9 @@ export default {
       this.parentContainer.isFocused = false;
       this.setParentValue();
     },
+    onInput(value) {
+      this.$emit('input', value);
+    },
     verifyProps() {
       if (!this.parentContainer) {
         return this.throwErrorDestroy('You should wrap the md-input in a md-input-container');
